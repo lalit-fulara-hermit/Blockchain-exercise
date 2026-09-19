@@ -124,22 +124,26 @@ ol.test{margin:0;padding-left:1.3em;display:flex;flex-direction:column;gap:6px;m
 @media (prefers-reduced-motion: no-preference){.ledger tr td{transition:background .2s}}
 @media print{.bar,.nav,.notes{display:none!important}body{background:#fff}}
 
-.intro{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);gap:24px;align-items:start}
-@media (max-width:900px){.intro{grid-template-columns:minmax(0,1fr)}}
-.story ul{margin:0;padding-left:1.1em;display:flex;flex-direction:column;gap:6px;font-size:1.1rem;max-width:68ch}
-.task{background:var(--accent-soft);border-radius:4px;padding:14px 16px}
-.task ol{margin:0;padding-left:1.3em;display:flex;flex-direction:column;gap:4px}
+.story ul{margin:0;padding-left:1.1em;display:flex;flex-direction:column;gap:6px;font-size:1.1rem;max-width:75ch}
 .dot:disabled{opacity:.35;cursor:not-allowed}
-.lockhint{font-size:.85rem;color:var(--muted)}
-.take p{font-family:var(--serif);font-size:1.15rem}
-.notes h2,.nw h2{font-size:1.05rem}
-.notes h3,.nw h3{margin-top:10px}
-.nw ul{margin:0;padding-left:1.1em;display:flex;flex-direction:column;gap:6px}
 .nav .where{white-space:normal}
-body.notes-mode .bar,body.notes-mode .nav,body.notes-mode .screen{display:none!important}
-#notesWin{max-width:760px;margin:0 auto;display:flex;flex-direction:column;gap:14px}
-#nwBody{display:flex;flex-direction:column;gap:14px}
-@media print{body.notes-mode #notesWin > .row{display:none}}
+.work{display:grid;grid-template-columns:minmax(280px,1fr) minmax(0,2fr);gap:24px;align-items:start}
+.guide{position:sticky;top:calc(60px + env(safe-area-inset-top,0px));max-height:calc(100vh - 150px);overflow:auto;background:var(--surface);border:1px solid var(--rule);border-radius:4px;padding:16px;display:flex;flex-direction:column;gap:12px}
+@media (max-width:900px){.work{grid-template-columns:minmax(0,1fr)}.guide{position:static;max-height:none}}
+.guide h3{margin:0}
+.count{font-family:var(--mono);font-size:.75rem;color:var(--muted);letter-spacing:.06em;text-transform:uppercase;margin:0}
+.now{background:var(--accent-soft);border-radius:4px;padding:14px;display:flex;flex-direction:column;gap:10px;align-items:flex-start}
+.now p{font-size:1.1rem}
+.now.chat{background:var(--warn-soft)}
+.now.alldone{font-weight:500;background:var(--ok-soft)}
+.now .choices{flex-direction:column;align-self:stretch}
+.now .choices label{background:var(--surface)}
+.donelist{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px;font-size:.88rem;color:var(--muted)}
+.donelist li{display:flex;gap:8px;align-items:flex-start}
+.donelist .n{flex:none;width:1.6em;height:1.6em;border-radius:50%;background:var(--ok-soft);color:var(--ok);font-family:var(--mono);font-size:.72rem;display:inline-flex;align-items:center;justify-content:center}
+.takeline{font-family:var(--serif);font-size:1.15rem;max-width:70ch}
+#summary .panel p{max-width:75ch}
+@media print{.guide{display:none}}
 </style>
 </head>
 <body>
@@ -148,41 +152,27 @@ body.notes-mode .bar,body.notes-mode .nav,body.notes-mode .screen{display:none!i
 <header class="bar">
   <p class="brand">Ledger Without a Bookkeeper</p>
   <nav class="dots" id="dots" aria-label="Screens"></nav>
-  <div class="clock" data-teacher hidden>
-    <span class="chip idle">Instructor view</span>
-    <span id="planText"></span>
-    <span id="clockText">00:00</span>
-    <button class="btn small ghost" id="startBtn" type="button">Start clock</button>
-    <button class="btn small ghost" id="notesBtn" type="button" title="Shortcut: N. The notes show on a shared screen.">Notes here</button>
-    <button class="btn small ghost" id="notesWinBtn" type="button" title="Opens a second window that follows this one. Do not share that window.">Notes window</button>
-    <button class="btn small ghost" id="studentBtn" type="button">Student view</button>
-  </div>
 </header>
 
 <main id="deck">
 
 <!-- ============ SCREEN 1 ============ -->
-<section class="screen" id="s1" data-min="3" data-name="Opening">
-  <p class="eyebrow">Screen 1 of 8 · Opening · 3 min</p>
+<section class="screen" id="s1" data-name="Opening">
+  <p class="eyebrow">Screen 1 of 9 · Opening · 3 min</p>
   <h1>Can a ledger work with no bookkeeper?</h1>
-  <div class="intro">
-    <div class="story"><h3>The story</h3><ul>
-      <li>Every ledger you use has a bookkeeper you trust: a bank, a depository, an ERP administrator.</li>
-      <li>In 2008 that trust was shaken.</li>
-      <li>In January 2009 someone started a ledger that needs no bookkeeper. The text below is in its first block.</li>
-      <li>Today you test how it works and what it costs.</li>
-    </ul></div>
-    <div class="task"><h3>Your task · 1 min</h3><ol>
-      <li>Copy your private key from the wallet below.</li>
-      <li>Save it outside this page, for example in a notes app.</li>
-      <li>Tick the box. The next screen unlocks.</li>
-    </ol></div>
-  </div>
-  <div class="cols">
+  <div class="story"><ul>
+    <li>Every ledger you use has a bookkeeper you trust: a bank, a depository, an ERP administrator.</li>
+    <li>In 2008 that trust was shaken. In January 2009 someone started a ledger that needs no bookkeeper.</li>
+    <li>Today you test how it works and what it costs.</li>
+  </ul></div>
+  <div class="work">
+    <aside class="guide" data-guide="s1"></aside>
     <div class="activity">
-      <div class="genesis" id="genesisText"></div>
-      <p class="caption">Text written into Bitcoin's first block on 3 January 2009. <a href="https://en.wikipedia.org/wiki/History_of_bitcoin" target="_blank" rel="noopener">Source</a></p>
-      <div class="sheet" id="walletSheet">
+      <div data-from="1">
+        <div class="genesis" id="genesisText"></div>
+        <p class="caption" style="margin-top:8px">Text written into Bitcoin's first block on 3 January 2009. <a href="https://en.wikipedia.org/wiki/History_of_bitcoin" target="_blank" rel="noopener">Source</a></p>
+      </div>
+      <div class="sheet" id="walletSheet" data-from="2">
         <h2>Your wallet</h2>
         <div class="row">
           <div class="field"><span>Your address (public, anyone can see it)</span><div class="mono" id="wAddr"></div></div>
@@ -193,349 +183,213 @@ body.notes-mode .bar,body.notes-mode .nav,body.notes-mode .screen{display:none!i
             <label class="field"><span>Your private key (only you see it)</span><input type="text" id="wKey" readonly></label>
             <button class="btn ghost" id="wCopy" type="button">Copy key</button>
           </div>
-          <p class="state warn" style="margin-top:12px">Save this key now, outside this page. There is no reset. You will need it at the end of the session.</p>
+          <p class="state warn" style="margin-top:12px">There is no reset. This page does not keep a copy of your key.</p>
           <label style="display:flex;gap:8px;align-items:center;margin-top:12px"><input type="checkbox" id="wSaved"> I have saved my key. Remove it from this page.</label>
         </div>
         <p id="wHidden" hidden>The key is no longer on this page. Only you hold it.</p>
       </div>
     </div>
-    <aside class="side">
-      <div class="ask"><h3>Discuss in the chat</h3><p>Name one ledger you rely on at work. Who keeps it?</p></div>
-      <p class="caption">The page works offline once it is open. Nothing you type leaves your laptop.</p>
-    </aside>
   </div>
-  <div class="notes" data-notes="0"></div>
 </section>
 
 <!-- ============ SCREEN 2 ============ -->
-<section class="screen" id="s2" data-min="6" data-name="The problem" hidden>
-  <p class="eyebrow">Screen 2 of 8 · The problem · 6 min</p>
+<section class="screen" id="s2" data-name="The problem" hidden>
+  <p class="eyebrow">Screen 2 of 9 · The problem · 6 min</p>
   <h1>Remove the bookkeeper and four jobs have no owner</h1>
-  <div class="intro">
-    <div class="story"><h3>The story</h3><ul>
-      <li>A bookkeeper does four jobs for you, and you rarely notice them.</li>
-      <li>Take the bookkeeper away and each job needs a new owner.</li>
-      <li>A blockchain gives each job to math and incentives. The next four blocks show how.</li>
-    </ul></div>
-    <div class="task"><h3>Your task · 1 min</h3><ol>
-      <li>Read the four jobs in the table.</li>
-      <li>Pick the one that costs your company the most today.</li>
-    </ol></div>
-  </div>
-  <div class="sheet scroll">
-    <table>
-      <thead><tr><th>The job</th><th>How you do it today</th><th>What replaces it</th><th>Block</th></tr></thead>
-      <tbody>
-        <tr><td><strong>Has the record been changed?</strong></td><td>Audit trail, period lock</td><td>Linked <span class="term" tabindex="0" data-def="A hash is a short code calculated from any data. The same data always gives the same hash. Any change gives a completely different hash. You cannot work back from the hash to the data.">hashes</span></td><td>1 Tamper</td></tr>
-        <tr><td><strong>Who is sending, and do they own it?</strong></td><td>Authorised signatory, balance check</td><td><span class="term" tabindex="0" data-def="A digital signature is created with a private key. Anyone can check it with the matching public key. It proves who sent the message and that nobody changed it.">Digital signature</span>, checked against the full history</td><td>2 Keys</td></tr>
-        <tr><td><strong>Who writes the next entry?</strong></td><td>Maker and checker</td><td><span class="term" tabindex="0" data-def="Proof of work: participants compete to find a number that gives the block a hash starting with enough zeros. Finding it takes many attempts. Checking it takes one.">Proof of work</span></td><td>3 Mining</td></tr>
-        <tr><td><strong>Which copy is true?</strong></td><td>Reconciliation</td><td>The chain with the most work behind it</td><td>4 Forks</td></tr>
-      </tbody>
-    </table>
-  </div>
-  <div class="sheet">
-    <div class="step"><span class="tag">Choose</span><div>
-      <p>Which of these four jobs costs your company the most today?</p>
-      <div class="choices" id="pChoice">
-        <label><input type="radio" name="pc" id="pc1" value="keeping records unchanged">Keeping records unchanged</label>
-        <label><input type="radio" name="pc" id="pc2" value="checking who is sending">Checking who is sending</label>
-        <label><input type="radio" name="pc" id="pc3" value="writing the entries">Writing the entries</label>
-        <label><input type="radio" name="pc" id="pc4" value="reconciliation">Reconciliation</label>
+  <div class="story"><ul>
+    <li>A bookkeeper does four jobs for you, and you rarely notice them.</li>
+    <li>Take the bookkeeper away and each job needs a new owner.</li>
+    <li>A blockchain gives each job to math and incentives. The next four blocks show how.</li>
+  </ul></div>
+  <div class="work">
+    <aside class="guide" data-guide="s2"></aside>
+    <div class="activity">
+      <div class="sheet scroll" data-from="1">
+        <table>
+          <thead><tr><th>The job</th><th>How you do it today</th><th>What replaces it</th><th>Block</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Has the record been changed?</strong></td><td>Audit trail, period lock</td><td>Linked <span class="term" tabindex="0" data-def="A hash is a short code calculated from any data. The same data always gives the same hash. Any change gives a completely different hash. You cannot work back from the hash to the data.">hashes</span></td><td>1</td></tr>
+            <tr><td><strong>Who is sending, and do they own it?</strong></td><td>Authorised signatory, balance check</td><td><span class="term" tabindex="0" data-def="A digital signature is created with a private key. Anyone can check it with the matching public key.">Digital signature</span></td><td>2</td></tr>
+            <tr><td><strong>Who writes the next entry?</strong></td><td>Maker and checker</td><td><span class="term" tabindex="0" data-def="Proof of work: participants compete to find a number that gives the block a hash starting with enough zeros.">Proof of work</span></td><td>3</td></tr>
+            <tr><td><strong>Which copy is true?</strong></td><td>Reconciliation</td><td>The chain with the most work behind it</td><td>4</td></tr>
+          </tbody>
+        </table>
       </div>
-    </div></div>
+    </div>
   </div>
-  <div class="notes" data-notes="1"></div>
 </section>
 
 <!-- ============ SCREEN 3 ============ -->
-<section class="screen" id="s3" data-min="8" data-name="Block 1: Tamper" hidden>
-  <p class="eyebrow">Screen 3 of 8 · Block 1 · 8 min</p>
+<section class="screen" id="s3" data-name="Block 1: Tamper" hidden>
+  <p class="eyebrow">Screen 3 of 9 · Block 1 · 8 min</p>
   <h1>Has the record been changed?</h1>
-  <div class="intro">
-    <div class="story"><h3>The story</h3><ul>
-      <li>First job: make sure nobody changes a record later.</li>
-      <li>Today an audit trail does this, and an administrator controls it.</li>
-      <li>Here every entry carries a code, called a hash, calculated from its own content and from the entry before it.</li>
-      <li>Everyone on the network holds a copy of these hashes.</li>
-    </ul></div>
-    <div class="task"><h3>Your task · 3 min</h3><ol>
-      <li>Try the warm-up.</li>
-      <li>Make your prediction.</li>
-      <li>Change the amount in entry 2 and read the result.</li>
-      <li>If you have time, do the stretch task.</li>
-    </ol></div>
-  </div>
-  <div class="cols">
+  <div class="story"><ul>
+    <li>First job: make sure nobody changes a record later.</li>
+    <li>Today an audit trail does this, and an administrator controls it.</li>
+    <li>Here every entry carries a code, called a hash. Everyone on the network holds a copy of these codes.</li>
+  </ul></div>
+  <div class="work">
+    <aside class="guide" data-guide="s3"></aside>
     <div class="activity">
-      <div class="sheet">
-        <div class="step"><span class="tag">Warm-up</span><div>
-          <label class="field"><span>Type anything. Then change one character.</span><input type="text" id="hashIn" value="Pay Vendor A Rs 10,00,000"></label>
-          <div class="field"><span>SHA-256 hash (always 64 characters)</span><div class="mono" id="hashOut"></div></div>
-        </div></div>
+      <div class="sheet" data-from="1">
+        <label class="field"><span>Text</span><input type="text" id="hashIn" value="Pay Vendor A Rs 10,00,000"></label>
+        <div class="field"><span>Its code (SHA-256 hash)</span><div class="mono" id="hashOut"></div></div>
+        <div class="field"><span>Length of the code</span><div class="mono" id="hashLen">64 characters</div></div>
       </div>
-      <div class="sheet">
-        <div class="step"><span class="tag">Predict</span><div>
-          <p>If you change the amount in entry 2, which entries stop matching the copies held by everyone else?</p>
-          <div class="choices" id="tPredict">
-            <label><input type="radio" name="tp" id="tp1" value="one">Only entry 2</label>
-            <label><input type="radio" name="tp" id="tp2" value="after">Entries 2 to 5</label>
-            <label><input type="radio" name="tp" id="tp3" value="all">All five</label>
-          </div>
-        </div></div>
-        <div class="step"><span class="tag">Do</span><div>
-          <p>Change the amount in entry 2.</p>
-          <div class="scroll"><table class="ledger" id="ledger">
-            <thead><tr><th>#</th><th>Entry</th><th>Amount (Rs)</th><th>Hash held by everyone</th><th>Hash of what you see</th><th>Status</th></tr></thead>
-            <tbody></tbody>
-          </table></div>
-          <div class="row"><button class="btn ghost small" id="tReset" type="button">Reset ledger</button></div>
-        </div></div>
-        <div class="step" id="tStateStep" hidden><span class="tag">Result</span><div><p class="state" id="tState"></p></div></div>
+      <div class="sheet" data-from="3">
+        <h2>Ledger</h2>
+        <div class="scroll"><table class="ledger" id="ledger">
+          <thead><tr><th>#</th><th>Entry</th><th>Amount (Rs)</th><th>Code now</th><th>Status against the network's copy</th></tr></thead>
+          <tbody></tbody>
+        </table></div>
+        <div class="row"><button class="btn ghost small" id="tReset" type="button">Reset ledger</button></div>
       </div>
-      <div class="sheet">
-        <div class="step"><span class="tag">Stretch</span><div>
-          <p>Entry 4 is wrong. It should be Rs 4,50,000, not Rs 5,40,000. Correct the books without breaking the chain.</p>
-          <div class="row">
-            <label class="field"><span>New entry</span><input type="text" id="tNewDesc" placeholder="Describe the correcting entry"></label>
-            <label class="field" style="flex:0 1 160px"><span>Amount (Rs)</span><input type="text" id="tNewAmt" placeholder="Amount"></label>
-            <button class="btn" id="tAdd" type="button">Record entry 6</button>
-          </div>
-          <p class="state" id="tStretchState" hidden></p>
-        </div></div>
+      <div class="sheet" data-from="7">
+        <h2>Add an entry</h2>
+        <div class="row">
+          <label class="field"><span>New entry</span><input type="text" id="tNewDesc" placeholder="Describe the entry"></label>
+          <label class="field" style="flex:0 1 160px"><span>Amount (Rs)</span><input type="text" id="tNewAmt" placeholder="Amount"></label>
+          <button class="btn" id="tAdd" type="button">Record entry</button>
+        </div>
+        <p class="state warn" id="tAddMsg" hidden></p>
       </div>
     </div>
-    <aside class="side">
-      <button class="btn ghost" type="button" data-reveal="s3" disabled>Show what follows</button>
-      <p class="lockhint" data-lockhint="s3">Make your prediction first.</p>
-      <div class="sheet take" data-hide="s3" hidden><h3>Takeaway</h3><p>Linked hashes make any change visible. That permanence applies to errors too.</p></div>
-      <div class="panel" data-hide="s3" hidden><h3>What follows</h3><ul data-facts="permErrors trueAtEntry tamperEvident"></ul></div>
-      <div class="panel" data-hide="s3" hidden><h3>Where you meet it at work</h3><ul data-facts="auditTrail sebiDlt"></ul></div>
-      <div class="ask" data-hide="s3" hidden><h3>Discuss in the chat</h3><p>Your ERP has an edit log. Who can switch it off? Who could switch this one off?</p></div>
-    </aside>
   </div>
-  <div class="notes" data-notes="2"></div>
 </section>
 
 <!-- ============ SCREEN 4 ============ -->
-<section class="screen" id="s4" data-min="7" data-name="Block 2: Keys" hidden>
-  <p class="eyebrow">Screen 4 of 8 · Block 2 · 7 min</p>
+<section class="screen" id="s4" data-name="Block 2: Keys" hidden>
+  <p class="eyebrow">Screen 4 of 9 · Block 2 · 7 min</p>
   <h1>Who is sending, and do they own it?</h1>
-  <div class="intro">
-    <div class="story"><h3>The story</h3><ul>
-      <li>Second job: check who is sending a payment and that it is theirs to send.</li>
-      <li>Today the bank checks your signature and your balance.</li>
-      <li>Here each person has two keys. The private key signs. The public key lets anyone check the signature.</li>
-    </ul></div>
-    <div class="task"><h3>Your task · 2 min</h3><ol>
-      <li>Make your prediction.</li>
-      <li>Create a key pair and sign the payment. Verify it.</li>
-      <li>Change the amount from 40 to 400. Verify again.</li>
-      <li>Try to forge the payment with another key.</li>
-    </ol></div>
-  </div>
-  <div class="cols">
+  <div class="story"><ul>
+    <li>Second job: check who is sending a payment and that it is theirs to send.</li>
+    <li>Today the bank checks your signature and your balance.</li>
+    <li>Here each person has two keys. The private key signs. The public key lets anyone check the signature.</li>
+  </ul></div>
+  <div class="work">
+    <aside class="guide" data-guide="s4"></aside>
     <div class="activity">
-      <div class="sheet">
-        <div class="step"><span class="tag">Predict</span><div>
-          <p>You sign a payment of 40 coins. Then someone changes the amount to 400. Does the signature still verify?</p>
-          <div class="choices" id="kPredict">
-            <label><input type="radio" name="kp" id="kp1" value="yes">Yes, the signature is still yours</label>
-            <label><input type="radio" name="kp" id="kp2" value="no">No, it fails</label>
-          </div>
-        </div></div>
-        <div class="step"><span class="tag">Do</span><div>
-          <div class="row"><button class="btn" id="kGen" type="button" disabled>Create a key pair</button></div>
-          <div class="field"><span>Public key (works like an account number, anyone can see it)</span><div class="mono" id="kPub">Not created yet</div></div>
-          <div class="field"><span>Private key (the power to sign, never shared)</span><div class="mono" id="kPriv">Not created yet</div></div>
-          <div class="row">
-            <label class="field"><span>Pay to</span><input type="text" id="kTo" value="Vendor A"></label>
-            <label class="field" style="flex:0 1 140px"><span>Amount (coins)</span><input type="number" id="kAmt" value="40" min="0"></label>
-          </div>
-          <div class="row">
-            <button class="btn" id="kSign" type="button" disabled>1. Sign payment</button>
-            <button class="btn" id="kVerify" type="button" disabled>2. Verify signature</button>
-            <button class="btn ghost" id="kForge" type="button" disabled>Try to forge with another key</button>
-          </div>
-          <div class="field"><span>Signature</span><div class="mono" id="kSig">None</div></div>
-          <p><span class="chip idle" id="kStatus">Not checked</span></p>
-        </div></div>
-        <div class="step" id="kStateStep" hidden><span class="tag">Result</span><div><p class="state" id="kState">Anyone can check a signature. Only the key holder can create one.</p></div></div>
+      <div class="sheet" data-from="2">
+        <div class="row"><button class="btn" id="kGen" type="button">Create a key pair</button></div>
+        <div class="field"><span>Public key (works like an account number, anyone can see it)</span><div class="mono" id="kPub">Not created yet</div></div>
+        <div class="field"><span>Private key (the power to sign, never shared)</span><div class="mono" id="kPriv">Not created yet</div></div>
       </div>
-      <p class="caption">This exercise uses a hash-based signature so that it runs offline. Bitcoin uses a different scheme (ECDSA). The behaviour is the same.</p>
+      <div class="sheet" data-from="3">
+        <h2>Payment</h2>
+        <div class="row">
+          <label class="field"><span>Pay to</span><input type="text" id="kTo" value="Vendor A"></label>
+          <label class="field" style="flex:0 1 140px"><span>Amount (coins)</span><input type="number" id="kAmt" value="40" min="0"></label>
+        </div>
+        <div class="row">
+          <button class="btn" id="kSign" type="button" disabled>Sign payment</button>
+          <button class="btn" id="kVerify" type="button" disabled>Verify signature</button>
+          <button class="btn ghost" id="kForge" type="button" disabled data-from="5">Try to forge with another key</button>
+        </div>
+        <div class="field"><span>Signature</span><div class="mono" id="kSig">None</div></div>
+        <p>Check result: <span class="chip idle" id="kStatus">Not signed</span></p>
+      </div>
+      <p class="caption" data-from="2">This exercise uses a hash-based signature so that it runs offline. Bitcoin uses a different scheme (ECDSA).</p>
     </div>
-    <aside class="side">
-      <button class="btn ghost" type="button" data-reveal="s4" disabled>Show what follows</button>
-      <p class="lockhint" data-lockhint="s4">Make your prediction first.</p>
-      <div class="sheet take" data-hide="s4" hidden><h3>Takeaway</h3><p>A digital signature proves who sent a payment and that nobody altered it. Whoever holds the private key owns the asset.</p></div>
-      <div class="panel" data-hide="s4" hidden><h3>What follows</h3><ul data-facts="lostCoins custody blindSign ftx"></ul></div>
-      <div class="panel" data-hide="s4" hidden><h3>Where you meet it at work</h3><ul><li>The treasury custody policy for any digital asset, due diligence on custodians, and the signatory matrix.</li></ul></div>
-      <div class="ask" data-hide="s4" hidden><h3>Discuss in the chat</h3><p>Who in your company would hold the key? What happens when that person leaves?</p></div>
-    </aside>
   </div>
-  <div class="notes" data-notes="3"></div>
 </section>
 
 <!-- ============ SCREEN 5 ============ -->
-<section class="screen" id="s5" data-min="9" data-name="Block 3: Mining" hidden>
-  <p class="eyebrow">Screen 5 of 8 · Block 3 · 9 min</p>
+<section class="screen" id="s5" data-name="Block 3: Mining" hidden>
+  <p class="eyebrow">Screen 5 of 9 · Block 3 · 9 min</p>
   <h1>Who writes the next entry?</h1>
-  <div class="intro">
-    <div class="story"><h3>The story</h3><ul>
-      <li>Third job: decide who writes the next block of entries.</li>
-      <li>Today the bank's staff do it, with a maker and a checker.</li>
-      <li>Here anyone may write. First they must find a number that is hard to find and easy to check.</li>
-      <li>The first to find it writes the block and earns a reward.</li>
-    </ul></div>
-    <div class="task"><h3>Your task · 4 min</h3><ol>
-      <li>Make your prediction.</li>
-      <li>Type your name and run Round 1.</li>
-      <li>Wait. The instructor starts Round 2 for everyone together.</li>
-      <li>When someone posts a result in the chat, press Stop and check it.</li>
-    </ol></div>
-  </div>
-  <div class="cols">
+  <div class="story"><ul>
+    <li>Third job: decide who writes the next block of entries.</li>
+    <li>Today the bank's staff do it, with a maker and a checker.</li>
+    <li>Here anyone may write. First they must find a number, called a nonce, that gives the block a code starting with enough zeros.</li>
+  </ul></div>
+  <div class="work">
+    <aside class="guide" data-guide="s5"></aside>
     <div class="activity">
-      <div class="sheet">
-        <div class="step"><span class="tag">Predict</span><div>
-          <p>The block's hash must start with a set number of zeros. Going from 5 zeros to 6 makes the search about how many times longer?</p>
-          <div class="choices" id="mPredict">
-            <label><input type="radio" name="mp" id="mp1" value="2">2 times</label>
-            <label><input type="radio" name="mp" id="mp2" value="5">5 times</label>
-            <label><input type="radio" name="mp" id="mp3" value="16">16 times</label>
-          </div>
-        </div></div>
-        <div class="step"><span class="tag">Do</span><div>
-          <div class="row">
-            <label class="field"><span>Your name (the reward goes to you)</span><input type="text" id="mName" value="" placeholder="Type your name"></label>
-            <label class="field"><span>Entry in this block (leave as it is)</span><input type="text" id="mEntry" value="Pay Vendor E Rs 3,00,000"></label>
-          </div>
-          <div class="row">
-            <button class="btn" type="button" data-mine="5" disabled>Round 1: 5 zeros</button>
-            <button class="btn" type="button" data-mine="6" disabled>Round 2, the race: 6 zeros</button>
-            <button class="btn ghost" type="button" data-mine="4" disabled>Slow laptop: 4 zeros</button>
-            <button class="btn ghost" type="button" id="mStop" disabled>Stop</button>
-          </div>
-          <div class="row">
-            <div class="field"><span>Attempts</span><div class="mono" id="mAttempts">0</div></div>
-            <div class="field"><span>Seconds</span><div class="mono" id="mSecs">0.0</div></div>
-            <div class="field"><span>Number found (nonce)</span><div class="mono" id="mNonce">None</div></div>
-          </div>
-          <div class="field"><span>Block hash</span><div class="mono" id="mHash">Not mined yet</div></div>
-          <p><span class="chip idle" id="mStatus">Not mined</span></p>
-          <div class="row" id="mShare" hidden>
-            <label class="field"><span>Your result. Paste it in the chat.</span><input type="text" id="mResult" readonly></label>
-            <button class="btn ghost" id="mCopy" type="button">Copy result</button>
-          </div>
-          <div class="scroll"><table id="mRounds"><thead><tr><th>Round</th><th>Zeros</th><th>Expected attempts</th><th>Your attempts</th><th>Seconds</th></tr></thead><tbody></tbody></table></div>
-        </div></div>
-        <div class="step" id="mStateStep" hidden><span class="tag">Result</span><div><p class="state" id="mState"></p></div></div>
+      <div class="sheet" data-from="2">
+        <h2>Your block</h2>
+        <div class="row">
+          <label class="field"><span>Your name (the reward goes to you)</span><input type="text" id="mName" value="" placeholder="Type your name"></label>
+          <label class="field"><span>Entry in this block</span><input type="text" id="mEntry" value="Pay Vendor E Rs 3,00,000"></label>
+        </div>
+        <div class="row" data-from="3">
+          <button class="btn" type="button" data-mine="5" disabled>Round 1: 5 zeros</button>
+          <button class="btn" type="button" data-mine="6" disabled data-from="4">Round 2: 6 zeros</button>
+          <button class="btn ghost" type="button" data-mine="4" disabled>Slow laptop: 4 zeros</button>
+          <button class="btn ghost" type="button" id="mStop" disabled>Stop</button>
+        </div>
+        <div class="row" data-from="3">
+          <div class="field"><span>Attempts</span><div class="mono" id="mAttempts">0</div></div>
+          <div class="field"><span>Seconds</span><div class="mono" id="mSecs">0.0</div></div>
+          <div class="field"><span>Nonce found</span><div class="mono" id="mNonce">None</div></div>
+        </div>
+        <div class="field" data-from="3"><span>Block code (hash)</span><div class="mono" id="mHash">Not mined yet</div></div>
+        <p data-from="3">Block status: <span class="chip idle" id="mStatus">Not mined</span></p>
+        <div class="row" id="mShare" hidden>
+          <label class="field"><span>Your result</span><input type="text" id="mResult" readonly></label>
+          <button class="btn ghost" id="mCopy" type="button">Copy result</button>
+        </div>
+        <div class="scroll" data-from="3"><table id="mRounds"><thead><tr><th>Round</th><th>Zeros</th><th>Your attempts</th><th>Seconds</th></tr></thead><tbody></tbody></table></div>
       </div>
-      <div class="sheet">
-        <div class="step"><span class="tag">Check</span><div>
-          <p>A classmate posts a result in the chat. Check it with one hash.</p>
-          <label class="field"><span>Paste the classmate's result here</span><input type="text" id="vPaste" placeholder="Name | nonce | zeros"></label>
-          <div class="row">
-            <label class="field"><span>Miner's name</span><input type="text" id="vName"></label>
-            <label class="field" style="flex:0 1 150px"><span>Nonce</span><input type="text" id="vNonce" inputmode="numeric"></label>
-            <label class="field" style="flex:0 1 110px"><span>Zeros</span><input type="number" id="vZeros" value="5" min="1" max="8"></label>
-            <button class="btn" id="vCheck" type="button">Check</button>
-          </div>
-          <div class="mono" id="vHash"></div>
-          <p><span class="chip idle" id="vStatus">Not checked</span></p>
-        </div></div>
+      <div class="sheet" data-from="5">
+        <h2>Check a classmate's result</h2>
+        <label class="field"><span>Paste the result from the chat</span><input type="text" id="vPaste" placeholder="Name | nonce | zeros"></label>
+        <div class="row">
+          <label class="field"><span>Name</span><input type="text" id="vName"></label>
+          <label class="field" style="flex:0 1 150px"><span>Nonce</span><input type="text" id="vNonce" inputmode="numeric"></label>
+          <label class="field" style="flex:0 1 110px"><span>Zeros</span><input type="number" id="vZeros" value="6" min="1" max="8"></label>
+          <button class="btn" id="vCheck" type="button">Check</button>
+        </div>
+        <div class="mono" id="vHash"></div>
+        <p>Check result: <span class="chip idle" id="vStatus">Not checked</span> <span class="caption" id="vCount"></span></p>
       </div>
-      <p class="caption">Stretch: after mining, change the entry text. The same nonce no longer works. The block must be mined again, and so must every block after it. Change the text back before you check a classmate's result.</p>
     </div>
-    <aside class="side">
-      <button class="btn ghost" type="button" data-reveal="s5" disabled>Show what follows</button>
-      <p class="lockhint" data-lockhint="s5">Make your prediction first.</p>
-      <div class="sheet take" data-hide="s5" hidden><h3>Takeaway</h3><p>The right to write the next block goes to whoever proves work. The work is hard to do and easy to check. Security is a running cost.</p></div>
-      <div class="panel" data-hide="s5" hidden><h3>What follows</h3><ul data-facts="energy pools throughput reward pos"></ul></div>
-      <div class="panel" data-hide="s5" hidden><h3>Where you meet it at work</h3><ul><li>Fees and settlement speed in any payment use case.</li><li>Energy questions in sustainability reporting, if the company holds or uses a proof-of-work asset.</li></ul></div>
-      <div class="ask" data-hide="s5" hidden><h3>Discuss in the chat</h3><p>Who pays for this security? What happens to it if the reward falls?</p></div>
-    </aside>
   </div>
-  <div class="notes" data-notes="4"></div>
 </section>
 
 <!-- ============ SCREEN 6 ============ -->
-<section class="screen" id="s6" data-min="5" data-name="Block 4: Forks" hidden>
-  <p class="eyebrow">Screen 6 of 8 · Block 4 · 5 min</p>
+<section class="screen" id="s6" data-name="Block 4: Forks" hidden>
+  <p class="eyebrow">Screen 6 of 9 · Block 4 · 5 min</p>
   <h1>Which copy is true?</h1>
-  <div class="intro">
-    <div class="story"><h3>The story</h3><ul>
-      <li>Fourth job: agree on one version when two exist.</li>
-      <li>Today two parties reconcile their books.</li>
-      <li>Here thousands of computers each hold a copy, and two writers can finish at the same moment.</li>
-      <li>The network needs a rule for which copy to keep.</li>
-    </ul></div>
-    <div class="task"><h3>Your task · 2 min</h3><ol>
-      <li>Make your prediction.</li>
-      <li>Click step 1. Then choose where the next block lands: A or B.</li>
-      <li>Add blocks until your customer's payment reaches 6 confirmations.</li>
-    </ol></div>
-  </div>
-  <div class="cols">
+  <div class="story"><ul>
+    <li>Fourth job: agree on one version when two exist.</li>
+    <li>Today two parties reconcile their books.</li>
+    <li>Here thousands of computers each hold a copy, and two writers can finish at the same moment.</li>
+  </ul></div>
+  <div class="work">
+    <aside class="guide" data-guide="s6"></aside>
     <div class="activity">
-      <div class="sheet">
-        <div class="step"><span class="tag">Predict</span><div>
-          <p>Two writers find block 4 at the same moment. Half the network holds copy A and half holds copy B. Which copy survives?</p>
-          <div class="choices" id="fPredict">
-            <label><input type="radio" name="fp" id="fp1" value="A">Copy A, it was first</label>
-            <label><input type="radio" name="fp" id="fp2" value="vote">The copy most people vote for</label>
-            <label><input type="radio" name="fp" id="fp3" value="next">The copy that gets the next block first</label>
-          </div>
-        </div></div>
-        <div class="step"><span class="tag">Do</span><div>
-          <p>Your customer has paid you. The payment will be written into block 4B.</p>
-          <div class="scroll" id="forkView"></div>
-          <p class="state warn" id="fStatus">No fork yet. Blocks 1 to 3 are shared by everyone.</p>
-          <div class="row">
-            <button class="btn" id="fFork" type="button" disabled>1. Two writers find block 4</button>
-            <button class="btn" id="fNextA" type="button" disabled>2. Next block builds on A</button>
-            <button class="btn" id="fNextB" type="button" disabled>2. Next block builds on B</button>
-            <button class="btn ghost" id="fAdd" type="button" disabled>3. Add another block</button>
-            <button class="btn ghost small" id="fReset" type="button">Reset</button>
-          </div>
-          <div class="field"><span>Confirmations for your customer's payment</span><div><strong id="fConf">0</strong> of 6 that most exchanges wait for</div></div>
-        </div></div>
-        <div class="step" id="fStateStep" hidden><span class="tag">Result</span><div><p class="state">The copy that gets the next block first survives, because it has more work behind it. An entry is safer the more blocks are built on top of it.</p></div></div>
+      <div class="sheet" data-from="2">
+        <div class="scroll" id="forkView"></div>
+        <div class="row">
+          <button class="btn" id="fFork" type="button">1. Two writers find block 4</button>
+          <button class="btn" id="fNextA" type="button" disabled>2. Next block builds on A</button>
+          <button class="btn" id="fNextB" type="button" disabled>2. Next block builds on B</button>
+          <button class="btn ghost" id="fAdd" type="button" disabled>3. Add another block</button>
+          <button class="btn ghost small" id="fReset" type="button">Reset</button>
+        </div>
+        <div class="row">
+          <div class="field"><span>Your customer's payment</span><div><strong id="fWhere">Waiting to be written</strong></div></div>
+          <div class="field"><span>Confirmations</span><div><strong id="fConf">0</strong> <span class="caption">Most exchanges wait for 6.</span></div></div>
+        </div>
       </div>
     </div>
-    <aside class="side">
-      <button class="btn ghost" type="button" data-reveal="s6" disabled>Show what follows</button>
-      <p class="lockhint" data-lockhint="s6">Make your prediction first.</p>
-      <div class="sheet take" data-hide="s6" hidden><h3>Takeaway</h3><p>When two valid copies exist, participants follow the chain with the most work behind it. Settlement is a probability that rises with time.</p></div>
-      <div class="panel" data-hide="s6" hidden><h3>What follows</h3><ul data-facts="finality etc daoCetus"></ul></div>
-      <div class="panel" data-hide="s6" hidden><h3>Where you meet it at work</h3><ul><li>The definition of "settled" in a payment or delivery contract.</li><li>Cut-off at period end when payment arrives on a chain.</li><li>The counterparty's confirmation policy.</li></ul></div>
-      <div class="ask" data-hide="s6" hidden><h3>Discuss in the chat</h3><p>Your bank says a payment is final. Who decides that? Who decides it here?</p></div>
-    </aside>
   </div>
-  <div class="notes" data-notes="5"></div>
 </section>
 
 <!-- ============ SCREEN 7 ============ -->
-<section class="screen" id="s7" data-min="12" data-name="Block 5: Judgment" hidden>
-  <p class="eyebrow">Screen 7 of 8 · Block 5 · 12 min</p>
+<section class="screen" id="s7" data-name="Block 5: Judgment" hidden>
+  <p class="eyebrow">Screen 7 of 9 · Block 5 · 12 min</p>
   <h1>Blockchain or database?</h1>
-  <div class="intro">
-    <div class="story"><h3>The story</h3><ul>
-      <li>You now know the four mechanisms and what each one costs.</li>
-      <li>At work you will not build a blockchain. You will be asked to approve one.</li>
-      <li>Use the five questions on three real proposals.</li>
-      <li id="pRecall" hidden></li>
-    </ul></div>
-    <div class="task"><h3>Your task · 4 min</h3><ol>
-      <li>Read the five questions.</li>
-      <li>Read each proposal and vote.</li>
-      <li>Reveal what happened.</li>
-    </ol></div>
-  </div>
-  <div class="cols">
-    <div class="activity" id="cases"></div>
-    <aside class="side">
-      <div class="sheet">
-        <h3>The five-question test</h3>
+  <div class="story"><ul>
+    <li>At work you will not build a blockchain. You will be asked to approve one.</li>
+    <li>Use five questions on three real proposals.</li>
+    <li id="pRecall" hidden></li>
+  </ul></div>
+  <div class="work">
+    <aside class="guide" data-guide="s7"></aside>
+    <div class="activity">
+      <div class="sheet" data-from="1">
+        <h2>The five questions</h2>
         <ol class="test">
           <li>Do several organisations need to write to the same record?</li>
           <li>Is there a party they all trust that can keep it? If yes, that party runs a database.</li>
@@ -543,84 +397,51 @@ body.notes-mode .bar,body.notes-mode .nav,body.notes-mode .screen{display:none!i
           <li>Does the asset live on the ledger or outside it? If outside, who guarantees the link between the two?</li>
           <li>Who holds the keys, and who pays to run the network?</li>
         </ol>
-        <p class="caption">Questions 1 to 3 are adapted from <a href="https://eprint.iacr.org/2017/375.pdf" target="_blank" rel="noopener">Wüst and Gervais, "Do you need a Blockchain?"</a>. Questions 4 and 5 come from Blocks 1 to 3.</p>
       </div>
-      <button class="btn ghost" type="button" data-reveal="s7" disabled>Show what works today</button>
-      <p class="lockhint" data-lockhint="s7">Vote on all three proposals first.</p>
-      <div class="sheet take" data-hide="s7" hidden><h3>Takeaway</h3><p>A blockchain is justified only when several parties must write to one record and none of them is trusted to keep it. Otherwise a database is cheaper.</p></div>
-      <div class="panel" data-hide="s7" hidden><h3>What works today</h3><ul data-facts="liveVolumes keptTrust"></ul></div>
-      <div class="ask" data-hide="s7" hidden><h3>Discuss in the chat</h3><p>Think of the last blockchain proposal you heard at work. Which of the five questions did nobody ask?</p></div>
-    </aside>
+      <div id="cases"></div>
+    </div>
   </div>
-  <div class="notes" data-notes="6"></div>
 </section>
 
 <!-- ============ SCREEN 8 ============ -->
-<section class="screen" id="s8" data-min="5" data-name="Close" hidden>
-  <p class="eyebrow">Screen 8 of 8 · Close · 5 min</p>
-  <h1>Four mechanisms, their consequences, five questions</h1>
-  <div class="intro">
-    <div class="story"><h3>The story</h3><ul>
-      <li>You received a private key at the start. Now you need it.</li>
-      <li>After that, keep the summary and the five questions.</li>
-    </ul></div>
-    <div class="task"><h3>Your task · 1 min</h3><ol>
-      <li>Enter your private key and move your 100 coins.</li>
-      <li>Tell the class in the chat: moved, or lost.</li>
-    </ol></div>
-  </div>
-  <div class="cols">
+<section class="screen" id="s8" data-name="Close" hidden>
+  <p class="eyebrow">Screen 8 of 9 · Close · 5 min</p>
+  <h1>Move your coins</h1>
+  <div class="story"><ul>
+    <li>You received a private key at the start. Now you need it.</li>
+  </ul></div>
+  <div class="work">
+    <aside class="guide" data-guide="s8"></aside>
     <div class="activity">
-      <div class="sheet">
-        <h2>Key check</h2>
-        <div class="field"><span>Your address</span><div class="mono" id="cAddr"></div></div>
+      <div class="sheet" data-from="1">
+        <h2>Your wallet</h2>
         <div class="row">
-          <label class="field"><span>Enter your private key</span><input type="text" id="cKey" autocomplete="off" placeholder="XXXX-XXXX-XXXX-XXXX-XXXX-XXXX-XXXX-XXXX"></label>
+          <div class="field"><span>Your address</span><div class="mono" id="cAddr"></div></div>
+          <div class="field" style="flex:0 1 140px"><span>Balance</span><div><strong id="cBal">100</strong> coins</div></div>
+        </div>
+        <div class="row">
+          <label class="field"><span>Your private key</span><input type="text" id="cKey" autocomplete="off" placeholder="XXXX-XXXX-XXXX-XXXX-XXXX-XXXX-XXXX-XXXX"></label>
           <button class="btn" id="cMove" type="button">Sign and move 100 coins</button>
         </div>
-        <p class="state" id="cState" hidden></p>
-        <div class="row"><button class="btn ghost small" id="cNew" type="button">Create a new wallet (the old coins stay lost)</button></div>
-      </div>
-      <div class="sheet scroll">
-        <h2>Summary</h2>
-        <table>
-          <thead><tr><th>The job</th><th>What replaces the bookkeeper</th><th>What follows</th></tr></thead>
-          <tbody>
-            <tr><td>Has the record been changed?</td><td>Linked hashes</td><td>Errors are permanent too. The chain proves a record is unchanged, not that it was true.</td></tr>
-            <tr><td>Who is sending, and do they own it?</td><td>Digital signature</td><td>Whoever holds the key owns the asset. No reset. Custody is the main control.</td></tr>
-            <tr><td>Who writes the next entry?</td><td>Proof of work</td><td>Security is a running cost. Mining concentrates. Throughput is low by design. The network needs a token to pay its bookkeepers.</td></tr>
-            <tr><td>Which copy is true?</td><td>Chain with the most work</td><td>Settlement is a probability. Permanence holds only while participants agree.</td></tr>
-          </tbody>
-        </table>
-        <div class="row"><button class="btn ghost small" id="printBtn" type="button">Print or save this screen as PDF</button></div>
-      </div>
-      <div class="sheet">
-        <h2>Link to next week</h2>
-        <p>A cryptocurrency is the payment to the bookkeepers. An Initial Coin Offering sells that token to raise funds. Lending on a blockchain runs on code, and errors in code are permanent too.</p>
+        <p>Result: <span class="chip idle" id="cState">Not tried</span></p>
       </div>
     </div>
-    <aside class="side">
-      <div class="sheet scroll">
-        <h3>Reference card: read after class</h3>
-        <table id="refTable"><thead><tr><th>Topic</th><th>Position</th><th>As of</th></tr></thead><tbody></tbody></table>
-      </div>
-    </aside>
   </div>
-  <div class="notes" data-notes="7"></div>
 </section>
 
-<!-- ============ PRIVATE NOTES WINDOW ============ -->
-<section id="notesWin" hidden>
-  <div class="row" style="justify-content:space-between">
-    <p class="brand">Facilitator notes. Do not share this window.</p>
-    <div class="row">
-      <span class="mono" id="nwClock">00:00</span>
-      <button class="btn small ghost" id="nwPrev" type="button">Back</button>
-      <button class="btn small ghost" id="nwNext" type="button">Next</button>
-      <button class="btn small ghost" id="nwPrint" type="button">Print all notes</button>
-    </div>
+<!-- ============ SCREEN 9 ============ -->
+<section class="screen" id="s9" data-name="Summary" hidden>
+  <p class="eyebrow">Screen 9 of 9 · Read after class</p>
+  <h1>Summary and sources</h1>
+  <div class="story"><ul>
+    <li>This screen holds what each exercise showed, what follows from it, and where you meet it at work.</li>
+  </ul></div>
+  <div class="row"><button class="btn ghost small" id="printBtn" type="button">Print or save as PDF</button><button class="btn ghost small" id="cNew" type="button">Start again with a new wallet</button></div>
+  <div id="summary" class="activity"></div>
+  <div class="sheet scroll">
+    <h2>Reference card</h2>
+    <table id="refTable"><thead><tr><th>Topic</th><th>Position</th><th>As of</th></tr></thead><tbody></tbody></table>
   </div>
-  <div id="nwBody"></div>
 </section>
 
 </main>
@@ -766,88 +587,113 @@ function sset(k,v){ try { window.localStorage.setItem(k, JSON.stringify(v)); } c
 
 
 /* =====================================================================
-   FACILITATOR NOTES. Students never see these unless you share them.
+   GUIDE. One instruction at a time. Instructions only, no explanations.
+   t = instruction, key = action that completes it, manual = needs a click,
+   choices = prediction options, chat = answer goes in the class chat.
    ===================================================================== */
-var NOTES = [
-  {say:["Every ledger you use has a bookkeeper you trust: a bank, a depository, an ERP administrator.","In 2008 that trust was shaken.","In January 2009 someone started a ledger that needs no bookkeeper. This headline is in its first block.","Today we test how it works and what it costs."],
-   ask:["Name one ledger you rely on at work. Who keeps it? Answer in the chat."],
-   expect:["Bank statement, share register, GST ledger, ERP general ledger."],
-   point:["Give students one minute to save the key. They cannot move on until they tick the box.","Do not explain why the key matters. That comes at the close."],
-   behind:["Do not cut this screen. It sets up the close."]},
-  {say:["A bookkeeper does four jobs for you, and you rarely notice them.","Take the bookkeeper away and each job needs a new owner.","A blockchain gives each job to math and incentives."],
-   ask:["Which of these four jobs costs your company the most today? Choose on the page."],
-   expect:["Most will choose reconciliation. It comes back in Block 5."],
-   point:["Do not explain the mechanisms here. Each one gets its own block.","Students can hover over the underlined terms for a definition."],
-   behind:["Keep this to four minutes."]},
-  {say:["First job: make sure nobody changes a record later.","Today an audit trail does this, and an administrator controls it.","Here every entry carries a hash calculated from its own content and from the entry before it.","Everyone on the network holds a copy of these hashes."],
-   ask:["Predict on the page first. Then change entry 2.","Afterwards in the chat: your ERP has an edit log. Who can switch it off? Who could switch this one off?"],
-   expect:["Correct prediction: entries 2 to 5. Entry 1 is safe because nothing before it changed.","Stretch answer: a new reversing entry. The wrong entry 4 stays on record for good."],
-   point:["Run the exercise on your shared screen only after students have done it.","The person who changes an entry cannot change the copies held by everyone else.","The chain proves a record is unchanged. It does not prove the record was true."],
-   behind:["Skip the stretch task and state its answer."]},
-  {say:["Second job: check who is sending a payment and that it is theirs to send.","Today the bank checks your signature and your balance.","Here each person has two keys. The private key signs. The public key lets anyone check the signature."],
-   ask:["Predict on the page first. Then sign, verify, change the amount, verify again.","Afterwards in the chat: who in your company would hold the key? What happens when that person leaves?"],
-   expect:["Correct prediction: no, it fails. The signature covers the exact payment."],
-   point:["Anyone can check a signature. Only the key holder can create one.","There is no reset. Whoever holds the key owns the asset.","Do not mention the key from Screen 1 yet."],
-   behind:["Skip the forge step."]},
-  {say:["Third job: decide who writes the next block of entries.","Today the bank's staff do it, with a maker and a checker.","Here anyone may write. First they must find a number that is hard to find and easy to check.","The first to find it writes the block and earns a reward."],
-   ask:["Predict on the page first. Then run Round 1 on your own.","Round 2 is the race. Count down and let everyone click together.","The first to finish pastes the result in the chat. Everyone else presses Stop and checks it."],
-   expect:["Correct prediction: 16 times. Each hash character has 16 possible values.","Round 1 takes a few seconds on most laptops. Round 2 takes about 16 times longer."],
-   point:["Finding took lakhs of attempts. Checking took one. That is why strangers can trust the writer.","The work done by everyone who lost the race was wasted. That is the cost of choosing the writer this way.","Every student searches a different block because the name is part of it. Luck and laptop speed both matter."],
-   behind:["Run Round 1 only. Read out the expected attempts for Round 2: about 1.7 crore."]},
-  {say:["Fourth job: agree on one version when two exist.","Today two parties reconcile their books.","Here thousands of computers each hold a copy, and two writers can finish at the same moment.","The network needs a rule for which copy to keep."],
-   ask:["Predict on the page first. Then run the steps.","Afterwards in the chat: your bank says a payment is final. Who decides that? Who decides it here?"],
-   expect:["Correct prediction: the copy that gets the next block first. There is no vote and no referee."],
-   point:["Ask who chose A. Their customer's payment went from 1 confirmation back to 0.","Settlement is a probability that rises with time. Six confirmations take about 60 minutes on Bitcoin."],
-   behind:["Run it yourself on the shared screen in one minute."]},
-  {say:["You now know the four mechanisms and what each one costs.","At work you will not build a blockchain. You will be asked to approve one.","Use the five questions on three real proposals."],
-   ask:["Take one proposal at a time. Students vote on the page. Run a poll or ask for the chat. Then everyone reveals.","Afterwards: think of the last blockchain proposal you heard at work. Which of the five questions did nobody ask?"],
-   expect:["Proposal 1: database. The exchange already is the trusted party (question 2).","Proposal 2: passes on paper. It failed on ownership of the network.","Proposal 3: blockchain first, then not. The hash check stayed. The blockchain did not."],
-   point:["The largest live volumes today sit on ledgers run by one trusted operator. They kept the trusted party."],
-   behind:["Never cut this block. Cut Forks instead."]},
-  {say:["You received a private key at the start. Now you need it.","After that, keep the summary and the five questions."],
-   ask:["Who could not move the coins? Use a poll or the chat."],
-   expect:["Some students will have lost the key, even though the page told them to save it."],
-   point:["No reset. This is custody. It is the main financial control in this technology.","Do not present the reference card. Students read it after class.","Close with the five questions."],
-   behind:["Skip the summary. Do the key check and the five questions."]}
-];
-var LOCKHINT = [
-  "Save your key and tick the box to unlock the next screen.",
-  "Choose one job to unlock the next screen.",
-  "Make your prediction to unlock the next screen.",
-  "Make your prediction to unlock the next screen.",
-  "Make your prediction to unlock the next screen.",
-  "Make your prediction to unlock the next screen.",
-  "Vote on all three proposals to unlock the last screen.",
-  ""
+var GUIDES = {
+  s1: [
+    {t:"Read the text in the dark box. It was written into Bitcoin's first block on 3 January 2009.", manual:true},
+    {t:"Find your wallet. Click \"Copy key\".", key:"copy", skipIf:function(){ return !wallet.seed; }},
+    {t:"Paste the key into a notes app or a document on your laptop. Save it. You will need it at the end.", manual:true, skipIf:function(){ return !wallet.seed; }},
+    {t:"Tick the box \"I have saved my key\".", key:"saved", skipIf:function(){ return !wallet.seed; }},
+    {t:"Name one ledger you rely on at work. Who keeps it?", manual:true, chat:true}
+  ],
+  s2: [
+    {t:"Read the table from left to right: the job, how you do it today, and what replaces it.", manual:true},
+    {t:"Move your mouse over an underlined word to see what it means.", manual:true},
+    {t:"Choose the job that costs your company the most today.", key:"choose", choices:[["keeping records unchanged","Keeping records unchanged"],["checking who is sending","Checking who is sending"],["writing the entries","Writing the entries"],["reconciliation","Reconciliation"]]},
+    {t:"Say which job you chose, and why.", manual:true, chat:true}
+  ],
+  s3: [
+    {t:"Change one character in the text box. Watch the code below it.", key:"hashIn"},
+    {t:"Now type a long sentence in the same box. Watch the length of the code.", manual:true},
+    {t:"Look at the ledger. Each entry has a code. The code is calculated from the entry's own text and from the code of the entry before it.", manual:true},
+    {t:"Predict. If you change the amount in entry 2, which entries will show \"Broken\"?", key:"tPredict", choices:[["one","Only entry 2"],["after","Entries 2 to 5"],["all","All five"]]},
+    {t:"Now change the amount in entry 2. Watch the Status column.", key:"ledgerEdit"},
+    {t:"Which entries broke? Why is entry 1 still fine?", manual:true, chat:true},
+    {t:"Click \"Reset ledger\". Entry 4 is wrong: it should be Rs 4,50,000, not Rs 5,40,000. Correct the books so that no entry shows \"Broken\".", manual:true, optional:true}
+  ],
+  s4: [
+    {t:"Predict. You sign a payment of 40 coins. Then someone changes the amount to 400. Will the signature still verify?", key:"kPredict", choices:[["yes","Yes, it still verifies"],["no","No, it fails"]]},
+    {t:"Click \"Create a key pair\". You get a public key and a private key.", key:"kGen"},
+    {t:"Click \"Sign payment\". Then click \"Verify signature\".", key:"kVerifyOk"},
+    {t:"Change the amount from 40 to 400. Click \"Verify signature\" again.", key:"kVerifyChanged"},
+    {t:"Change the amount back to 40 and verify again. Then click \"Try to forge with another key\".", key:"kForge"},
+    {t:"Who in your company would hold the private key? What happens when that person leaves?", manual:true, chat:true}
+  ],
+  s5: [
+    {t:"Predict. A block's code must start with a set number of zeros. Going from 5 zeros to 6 makes the search about how many times longer?", key:"mPredict", choices:[["2","2 times"],["5","5 times"],["16","16 times"]]},
+    {t:"Type your name in the box. Leave the entry text as it is. Then click outside the box.", key:"mName"},
+    {t:"Click \"Round 1: 5 zeros\". Watch the attempts counter until it stops.", key:"mFound"},
+    {t:"Wait for the instructor. On the signal, click \"Round 2: 6 zeros\".", key:"mStart6"},
+    {t:"If you finish first: click \"Copy result\" and paste it in the chat. If a classmate finishes first: click \"Stop\", then paste their result into the check box below.", manual:true},
+    {t:"How many attempts did finding take? How many did checking take?", manual:true, chat:true},
+    {t:"After a block is found, change the entry text. Watch the block status.", manual:true, optional:true}
+  ],
+  s6: [
+    {t:"Your customer has paid you. The payment will be written into block 4B. Predict: two writers finish block 4 at the same moment. Half the network holds copy A and half holds copy B. Which copy survives?", key:"fPredict", choices:[["A","Copy A, because it was first"],["vote","The copy most people vote for"],["next","The copy that gets the next block first"]]},
+    {t:"Click \"1. Two writers find block 4\". Look at the confirmations for your payment.", key:"fFork"},
+    {t:"Choose where the next block lands. Click \"builds on A\" or \"builds on B\". Watch block 4B and your confirmations.", key:"fNext"},
+    {t:"Click \"3. Add another block\" until your payment shows 6 confirmations.", key:"fSix"},
+    {t:"Click \"Reset\". Run it again and choose the other copy.", manual:true},
+    {t:"What happened to your payment when copy A won? When would you call this payment settled?", manual:true, chat:true}
+  ],
+  s7: [
+    {t:"Read the five questions.", manual:true},
+    {t:"Read proposal 1. Vote: blockchain or database.", key:"vote0"},
+    {t:"Read proposal 2. Vote.", key:"vote1"},
+    {t:"Read proposal 3. Vote.", key:"vote2"},
+    {t:"Post your three votes, for example B-D-B, and one reason.", manual:true, chat:true}
+  ],
+  s8: [
+    {t:"Find the private key you saved at the start. Paste it into the box. Click \"Sign and move 100 coins\". If you cannot find your key, click the button below.", key:"cMove", manual:true, manualLabel:"I cannot find my key"},
+    {t:"Moved, or lost?", manual:true, chat:true}
+  ]
+};
+
+/* What each exercise showed. Appears only on the last screen. */
+var SUMMARY = [
+  {h:"Block 1. Has the record been changed?", take:"Linked hashes make any change visible. That permanence applies to errors too.",
+   ans:"Entries 2 to 5 break. Entry 1 is fine because nothing before it changed. The only clean correction is a new reversing entry. The wrong entry stays on record.", facts:"permErrors trueAtEntry tamperEvident auditTrail sebiDlt"},
+  {h:"Block 2. Who is sending, and do they own it?", take:"A digital signature proves who sent a payment and that nobody altered it. Whoever holds the private key owns the asset.",
+   ans:"The signature fails after any change, because it covers the exact payment. Another key cannot sign for your address. Anyone can check a signature. Only the key holder can create one.", facts:"lostCoins custody blindSign ftx"},
+  {h:"Block 3. Who writes the next entry?", take:"The right to write the next block goes to whoever proves work. The work is hard to do and easy to check. Security is a running cost.",
+   ans:"Each extra zero makes the search about 16 times longer, because each hash character has 16 possible values. Finding takes lakhs of attempts. Checking takes one. The work of everyone who lost the race is wasted.", facts:"energy pools throughput reward pos"},
+  {h:"Block 4. Which copy is true?", take:"When two valid copies exist, participants follow the chain with the most work behind it. Settlement is a probability that rises with time.",
+   ans:"The copy that gets the next block first survives. There is no vote and no referee. When copy A wins, the payment in block 4B goes back to the waiting pool with 0 confirmations.", facts:"finality etc daoCetus"},
+  {h:"The key", take:"There is no reset. Whoever holds the key owns the asset. Custody is the main financial control in this technology.",
+   ans:"If you lost your key, your 100 coins are lost for good. The page never kept a copy.", facts:""}
 ];
 
-/* ---------------- role: student, instructor, or private notes window ---------------- */
-var hash0 = location.hash || "", role = sget("lwb_role") || "student";
-if (/teach/i.test(hash0) || /[?&]teach/i.test(location.search)) role = "teacher";
-if (/student/i.test(hash0)) role = "student";
-var notesMode = /notes/i.test(hash0);
-if (notesMode) role = "teacher";
-sset("lwb_role", role);
-document.body.classList.add(role);
-$$("[data-teacher]").forEach(function(el){ el.hidden = role !== "teacher"; });
-
-/* ---------------- facts, reference ---------------- */
-$$("[data-facts]").forEach(function(ul){
-  ul.innerHTML = ul.getAttribute("data-facts").split(/\s+/).map(function(k){
+/* ---------------- facts on the summary screen ---------------- */
+function factLis(keys){
+  return keys.split(/\s+/).filter(Boolean).map(function(k){
     var f = FACTS[k]; if (!f) return "";
     return "<li>" + esc(f.t) + (f.u ? " <a class=\"src\" href=\"" + esc(f.u) + "\" target=\"_blank\" rel=\"noopener\">" + esc(f.s) + "</a>" : "") + "</li>";
   }).join("");
-});
+}
 $("#genesisText").textContent = GENESIS;
 $("#refTable tbody").innerHTML = REF.map(function(r){
   return "<tr><td><strong>" + esc(r[0]) + "</strong></td><td>" + esc(r[1]) + " <a class=\"src\" href=\"" + esc(r[3]) + "\" target=\"_blank\" rel=\"noopener\">Source</a></td><td>" + esc(r[2]) + "</td></tr>";
 }).join("");
+$("#summary").innerHTML = SUMMARY.map(function(s){
+  return "<div class=\"sheet\"><h2>" + esc(s.h) + "</h2><p class=\"takeline\">" + esc(s.take) + "</p><div class=\"panel\"><h3>What the exercise showed</h3><p>" + esc(s.ans) + "</p></div>" +
+    (s.facts ? "<div class=\"panel\"><h3>What follows, and where you meet it at work</h3><ul>" + factLis(s.facts) + "</ul></div>" : "") + "</div>";
+}).join("") +
+  "<div class=\"sheet\"><h2>Block 5. Blockchain or database?</h2><p class=\"takeline\">A blockchain is justified only when several parties must write to one record and none of them is trusted to keep it. Otherwise a database is cheaper.</p>" +
+  CASES.map(function(c,i){ return "<div class=\"panel\"><h3>Proposal " + (i+1) + "</h3><p>" + esc(c.proposal) + "</p><p><strong>What happened:</strong> " + esc(c.outcome) + "</p><p><strong>It turns on:</strong> " + esc(c.turns) + "</p><p class=\"src\">" +
+    c.src.map(function(s){ return "<a href=\"" + esc(s[1]) + "\" target=\"_blank\" rel=\"noopener\">" + esc(s[0]) + "</a>"; }).join(" · ") + "</p></div>"; }).join("") +
+  "<div class=\"panel\"><h3>What works today</h3><ul>" + factLis("liveVolumes keptTrust") + "</ul></div>" +
+  "<p class=\"caption\">Questions 1 to 3 of the test are adapted from <a href=\"https://eprint.iacr.org/2017/375.pdf\" target=\"_blank\" rel=\"noopener\">Wüst and Gervais, \"Do you need a Blockchain?\"</a>.</p></div>" +
+  "<div class=\"sheet\"><h2>Link to next week</h2><p>A cryptocurrency is the payment to the bookkeepers. An Initial Coin Offering sells that token to raise funds. Lending on a blockchain runs on code, and errors in code are permanent too.</p></div>";
 
-/* ---------------- screens, locks, clock ---------------- */
-var screens = $$(".screen"), cur = 0, cum = [], acc = 0;
-screens.forEach(function(s){ acc += +s.getAttribute("data-min"); cum.push(acc); });
-var LAST = screens.length - 1;
-var unlocked = role === "teacher" ? LAST : Math.min(LAST, +sget("lwb_unlocked") || 0);
+/* ---------------- screens and locks ---------------- */
+var screens = $$(".screen"), cur = 0, LAST = screens.length - 1;
+var openAll = /all/i.test(location.hash || "");
+var unlocked = openAll ? LAST : Math.min(LAST, +sget("lwb3_unlocked") || 0);
+if (openAll) sset("lwb3_unlocked", LAST);
+var doneScreens = sget("lwb3_done") || {};
 var dots = $("#dots");
 screens.forEach(function(s,i){
   var b = document.createElement("button"); b.type = "button"; b.className = "dot"; b.textContent = i+1;
@@ -859,85 +705,57 @@ function navState(){
   $("#prevBtn").disabled = cur === 0;
   var locked = cur + 1 > unlocked;
   $("#nextBtn").disabled = cur === LAST || locked;
-  $("#whereText").textContent = (cur+1) + ". " + screens[cur].getAttribute("data-name") + (locked && cur < LAST ? " · " + LOCKHINT[cur] : "");
+  $("#whereText").textContent = (cur+1) + ". " + screens[cur].getAttribute("data-name") + (locked && cur < LAST ? " · Finish the steps in the guide to unlock the next screen." : "");
 }
-function unlock(i){ if (i > unlocked){ unlocked = Math.min(LAST, i); if (role !== "teacher") sset("lwb_unlocked", unlocked); } navState(); }
-function predicted(id, idx){
-  var b = $("[data-reveal=\"" + id + "\"]"); if (b) b.disabled = false;
-  var h = $("[data-lockhint=\"" + id + "\"]"); if (h) h.hidden = true;
-  unlock(idx + 1);
-}
-function reveal(id){ $$("[data-hide=\"" + id + "\"]").forEach(function(el){ el.hidden = false; }); var b = $("[data-reveal=\"" + id + "\"]"); if (b) b.hidden = true; var h = $("[data-lockhint=\"" + id + "\"]"); if (h) h.hidden = true; }
-$$("[data-reveal]").forEach(function(btn){ btn.addEventListener("click", function(){ reveal(btn.getAttribute("data-reveal")); }); });
-
-var chan = null; try { chan = new BroadcastChannel("lwb"); } catch(e){}
-var t0 = null;
-function post(){ if (role !== "teacher" || notesMode) return; var m = {cur:cur, t0:t0, at:Date.now()}; try { if (chan) chan.postMessage(m); } catch(e){} sset("lwb_sync", m); }
+function unlock(i){ if (i > unlocked){ unlocked = Math.min(LAST, i); sset("lwb3_unlocked", unlocked); } navState(); }
 function show(i){
   i = Math.max(0, Math.min(LAST, i)); if (i > unlocked) i = unlocked;
-  cur = i;
-  if (notesMode){ renderNotesWin(); return; }
-  screens.forEach(function(s,k){ s.hidden = k !== cur; });
-  navState();
-  try { history.replaceState(null, "", "#s" + (cur+1)); } catch(e){}
-  window.scrollTo(0,0); tick(); post();
-  if (cur === LAST) $("#cAddr").textContent = wallet.addr || "";
+  cur = i; screens.forEach(function(s,k){ s.hidden = k !== cur; });
+  navState(); try { history.replaceState(null, "", "#s" + (cur+1)); } catch(e){}
+  window.scrollTo(0,0);
+  if (screens[cur].id === "s8"){ $("#cAddr").textContent = wallet.addr || ""; $("#cBal").textContent = wallet.moved ? "0" : "100"; }
 }
 $("#prevBtn").addEventListener("click", function(){ show(cur-1); });
 $("#nextBtn").addEventListener("click", function(){ show(cur+1); });
-function toggleNotes(){ if (role === "teacher") document.body.classList.toggle("show-notes"); }
-$("#notesBtn").addEventListener("click", toggleNotes);
 document.addEventListener("keydown", function(ev){
   var t = ev.target, tag = t && t.tagName;
   if (tag === "INPUT" || tag === "TEXTAREA" || tag === "SELECT" || (t && t.isContentEditable)) return;
   if (ev.metaKey || ev.ctrlKey || ev.altKey) return;
-  if (ev.key === "ArrowRight") show(cur+1);
-  else if (ev.key === "ArrowLeft") show(cur-1);
-  else if (ev.key === "n" || ev.key === "N") toggleNotes();
-});
-function clockText(){
-  if (t0 === null) return "00:00";
-  var sec = Math.floor((Date.now() - t0)/1000); return ("0"+Math.floor(sec/60)).slice(-2) + ":" + ("0"+(sec%60)).slice(-2);
-}
-function tick(){
-  if (notesMode){ $("#nwClock").textContent = clockText() + " · plan: minute " + (cur ? cum[cur-1] : 0) + " to " + cum[cur]; return; }
-  if (role !== "teacher") return;
-  $("#planText").textContent = "Plan: minute " + (cur ? cum[cur-1] : 0) + " to " + cum[cur];
-  var late = t0 !== null && (Date.now() - t0)/60000 > cum[cur], el = $("#clockText");
-  el.textContent = clockText() + (late ? " behind plan" : ""); el.className = late ? "late" : "";
-}
-$("#startBtn").addEventListener("click", function(){
-  if (t0 === null){ t0 = Date.now(); this.textContent = "Reset clock"; } else { t0 = null; this.textContent = "Start clock"; }
-  tick(); post();
-});
-setInterval(tick, 1000);
-$("#studentBtn").addEventListener("click", function(){ sset("lwb_role", "student"); try { location.hash = "#student"; location.reload(); } catch(e){} });
-$("#notesWinBtn").addEventListener("click", function(){
-  var w = null; try { w = window.open(location.href.split("#")[0] + "#notes", "lwbnotes", "width=560,height=820"); } catch(e){}
-  if (!w) this.textContent = "Pop-up blocked. Use Notes here.";
+  if (ev.key === "ArrowRight") show(cur+1); else if (ev.key === "ArrowLeft") show(cur-1);
 });
 
-/* ---------------- notes: in-page panels and the private window ---------------- */
-function notesHtml(i){
-  var n = NOTES[i], name = screens[i].getAttribute("data-name"), min = screens[i].getAttribute("data-min");
-  function sec(title, arr){ return "<h3>" + title + "</h3><ul>" + arr.map(function(x){ return "<li>" + esc(x) + "</li>"; }).join("") + "</ul>"; }
-  return "<h2>" + (i+1) + ". " + esc(name) + " · " + min + " min · finish by minute " + cum[i] + "</h2>" +
-    sec("Say", n.say) + sec("Ask", n.ask) + sec("Expected answers", n.expect) + sec("Point to make", n.point) + sec("If you are behind", n.behind);
+/* ---------------- guide engine ---------------- */
+var gstate = {}, answers = {}, onChoose = {};
+function reqCount(id){ var n = 0, st = GUIDES[id]; while (n < st.length && !st[n].optional) n++; return n; }
+function screenIndex(id){ for (var k=0;k<screens.length;k++) if (screens[k].id === id) return k; return -1; }
+function applyFrom(id){
+  var st = gstate[id], all = st.i >= GUIDES[id].length;
+  $$("#" + id + " [data-from]").forEach(function(el){ el.hidden = !(all || st.i + 1 >= +el.getAttribute("data-from")); });
 }
-$$("[data-notes]").forEach(function(el){ el.innerHTML = "<p class=\"caption\">Facilitator notes. These show on a shared screen.</p>" + notesHtml(+el.getAttribute("data-notes")); });
-function renderNotesWin(){ $("#nwBody").innerHTML = "<div class=\"sheet nw\">" + notesHtml(cur) + "</div>"; tick(); }
-if (notesMode){
-  document.body.classList.add("notes-mode"); $("#notesWin").hidden = false; unlocked = LAST;
-  var applySync = function(m){ if (m && typeof m.cur === "number"){ cur = m.cur; t0 = m.t0; renderNotesWin(); } };
-  if (chan) chan.onmessage = function(ev){ applySync(ev.data); };
-  window.addEventListener("storage", function(ev){ if (ev.key === "lwb_sync"){ try { applySync(JSON.parse(ev.newValue)); } catch(e){} } });
-  applySync(sget("lwb_sync"));
-  $("#nwPrev").addEventListener("click", function(){ show(cur-1); });
-  $("#nwNext").addEventListener("click", function(){ show(cur+1); });
-  $("#nwPrint").addEventListener("click", function(){
-    $("#nwBody").innerHTML = NOTES.map(function(n,i){ return "<div class=\"sheet nw\">" + notesHtml(i) + "</div>"; }).join("");
-    try { window.print(); } catch(e){}
-  });
+function renderGuide(id){
+  var steps = GUIDES[id], st = gstate[id], el = $("[data-guide=\"" + id + "\"]");
+  while (st.i < steps.length && steps[st.i].skipIf && steps[st.i].skipIf()) st.i++;
+  var html = "<h3>Guide</h3>";
+  if (st.i < steps.length){
+    var s = steps[st.i];
+    html += "<div class=\"now" + (s.chat ? " chat" : "") + "\"><span class=\"count\">Step " + (st.i+1) + " of " + steps.length + (s.optional ? " · optional" : "") + (s.chat ? " · answer in the chat" : "") + "</span><p>" + esc(s.t) + "</p>";
+    if (s.choices) html += "<div class=\"choices\">" + s.choices.map(function(c,k){ return "<label><input type=\"radio\" name=\"g_" + id + "_" + st.i + "\" id=\"g_" + id + "_" + st.i + "_" + k + "\" value=\"" + esc(c[0]) + "\">" + esc(c[1]) + "</label>"; }).join("") + "</div>";
+    if (s.manual) html += "<button class=\"btn\" type=\"button\" id=\"gnext_" + id + "\">" + esc(s.manualLabel || (s.optional ? "Done, or skip" : "Done, next step")) + "</button>";
+    else if (!s.choices) html += "<p class=\"caption\">The next step appears when you have done this.</p>";
+    html += "</div>";
+  } else html += "<p class=\"now alldone\">All steps done. Click Next.</p>";
+  if (st.i > 0) html += "<p class=\"count\">Done so far</p><ol class=\"donelist\">" + steps.slice(0, st.i).map(function(s,k){ return "<li><span class=\"n\">" + (k+1) + "</span><span>" + esc(s.t) + "</span></li>"; }).join("") + "</ol>";
+  el.innerHTML = html;
+  var btn = $("#gnext_" + id); if (btn) btn.addEventListener("click", function(){ st.i++; renderGuide(id); });
+  $$("input[type=radio]", el).forEach(function(r){ r.addEventListener("change", function(){
+    var s2 = steps[st.i]; answers[s2.key] = r.value; if (onChoose[s2.key]) onChoose[s2.key](r.value); st.i++; renderGuide(id);
+  }); });
+  applyFrom(id);
+  if (st.i >= reqCount(id)){ doneScreens[id] = true; sset("lwb3_done", doneScreens); unlock(screenIndex(id) + 1); }
+}
+function advance(id, key){
+  var steps = GUIDES[id], st = gstate[id];
+  for (var k=0;k<steps.length;k++){ if (steps[k].key === key){ if (st.i <= k){ st.i = k + 1; renderGuide(id); } return; } }
 }
 
 /* ---------------- copy helper ---------------- */
@@ -954,45 +772,45 @@ function addrOf(seed){ return pubFingerprint(lamportPub(seed)).slice(0,40); }
 function newWallet(){ var seed = randHex(16); wallet = {addr:addrOf(seed), seed:seed, moved:false}; renderWallet(); }
 function renderWallet(){
   $("#wAddr").textContent = wallet.addr; $("#cAddr").textContent = wallet.addr;
-  $("#wBal").textContent = wallet.moved ? "0" : "100";
+  $("#wBal").textContent = wallet.moved ? "0" : "100"; $("#cBal").textContent = wallet.moved ? "0" : "100";
   var has = !!wallet.seed;
   $("#wKeyBox").hidden = !has; $("#wHidden").hidden = has;
   $("#wKey").value = has ? showKey(wallet.seed) : ""; $("#wSaved").checked = false;
 }
-(function(){ var j = sget("lwb_wallet"); if (j && j.addr){ wallet = {addr:j.addr, seed:null, moved:!!j.moved}; renderWallet(); if (unlocked < 1) unlocked = 1; } else newWallet(); })();
-$("#wCopy").addEventListener("click", function(){ copyFrom($("#wKey"), this, "Copy key"); });
+(function(){ var j = sget("lwb3_wallet"); if (j && j.addr){ wallet = {addr:j.addr, seed:null, moved:!!j.moved}; renderWallet(); } else newWallet(); })();
+$("#wCopy").addEventListener("click", function(){ copyFrom($("#wKey"), this, "Copy key"); advance("s1","copy"); });
 $("#wSaved").addEventListener("change", function(){
   if (!this.checked) return;
-  wallet.seed = null; sset("lwb_wallet", {addr:wallet.addr, moved:false}); renderWallet(); unlock(1);
+  wallet.seed = null; sset("lwb3_wallet", {addr:wallet.addr, moved:false}); renderWallet(); advance("s1","saved");
 });
+function cSet(cls, txt){ var s = $("#cState"); s.className = "chip " + cls; s.textContent = txt; }
 $("#cMove").addEventListener("click", function(){
-  var st = $("#cState"), key = parseKey($("#cKey").value); st.hidden = false;
-  if (wallet.moved){ st.className = "state"; st.textContent = "The coins have already moved. The balance is 0."; return; }
-  if (key.length !== 32){ st.className = "state bad"; st.textContent = "A private key has 32 characters: digits and the letters A to F."; return; }
+  var key = parseKey($("#cKey").value);
+  if (wallet.moved){ cSet("ok","Already moved. Balance 0."); return; }
+  if (key.length !== 32){ cSet("bad","A private key has 32 characters."); return; }
   var pub = lamportPub(key);
-  if (pubFingerprint(pub).slice(0,40) !== wallet.addr){
-    st.className = "state bad"; st.textContent = "This key does not match your address. There is no reset. The 100 coins stay where they are, for good. This is custody."; return;
-  }
+  if (pubFingerprint(pub).slice(0,40) !== wallet.addr){ cSet("bad","Key does not match. The coins did not move."); advance("s8","cMove"); return; }
   var msg = "MOVE|100|from=" + wallet.addr + "|to=class-treasury", sig = lamportSign(key, msg);
   if (lamportVerify(pub, msg, sig)){
-    wallet.moved = true; sset("lwb_wallet", {addr:wallet.addr, moved:true}); $("#wBal").textContent = "0";
-    st.className = "state"; st.textContent = "Signature valid. 100 coins moved to the class treasury. Only the holder of this key could do that.";
+    wallet.moved = true; sset("lwb3_wallet", {addr:wallet.addr, moved:true}); $("#wBal").textContent = "0"; $("#cBal").textContent = "0";
+    cSet("ok","Signature valid. Moved. Balance 0."); advance("s8","cMove");
   }
 });
-$("#cNew").addEventListener("click", function(){ try { window.localStorage.removeItem("lwb_wallet"); } catch(e){} newWallet(); $("#cKey").value = ""; $("#cState").hidden = true; show(0); });
+$("#cNew").addEventListener("click", function(){
+  try { ["lwb3_wallet","lwb3_unlocked","lwb3_done","lwb3_choice"].forEach(function(k){ window.localStorage.removeItem(k); }); } catch(e){}
+  try { location.hash = ""; location.reload(); } catch(e){}
+});
 $("#printBtn").addEventListener("click", function(){ try { window.print(); } catch(e){} });
 
 /* ---------------- Screen 2: choose ---------------- */
-$$("input[name=pc]").forEach(function(r){ r.addEventListener("change", function(){
-  sset("lwb_choice", r.value); predicted("s2", 1);
-  var el = $("#pRecall"); el.hidden = false; el.textContent = "On Screen 2 you said " + r.value + " costs your company the most. Keep it in mind for question 1.";
-}); });
-(function(){ var c = sget("lwb_choice"); if (c){ var el = $("#pRecall"); el.hidden = false; el.textContent = "On Screen 2 you said " + c + " costs your company the most. Keep it in mind for question 1."; } })();
+function recall(v){ var el = $("#pRecall"); el.hidden = false; el.textContent = "On Screen 2 you said " + v + " costs your company the most. Keep it in mind for question 1."; }
+onChoose.choose = function(v){ sset("lwb3_choice", v); recall(v); };
+(function(){ var c = sget("lwb3_choice"); if (c) recall(c); })();
 
 /* ---------------- Block 1: tamper ---------------- */
 var ZERO = new Array(65).join("0");
 var ORIG = [["Pay Vendor A","10,00,000"],["Pay Vendor B","2,50,000"],["Receive from Customer C","7,80,000"],["Pay Vendor D","5,40,000"],["Pay salaries","12,00,000"]];
-var led = [], tPredicted = false, tTouched = false;
+var led = [], tPredicted = !!doneScreens.s3;
 function entryHash(i,desc,amt,prev){ return H((i+1) + "|" + desc + "|" + amt + "|" + prev); }
 function baseTip(){ var prev = ZERO; ORIG.forEach(function(e,i){ prev = entryHash(i,e[0],e[1],prev); }); return prev; }
 function addRow(i, force){
@@ -1000,95 +818,78 @@ function addRow(i, force){
   tr.innerHTML = "<td class=\"n\">" + (i+1) + "</td>" +
     "<td><input type=\"text\" id=\"ld" + i + "\" aria-label=\"Entry " + (i+1) + " description\"></td>" +
     "<td><input type=\"text\" id=\"la" + i + "\" aria-label=\"Entry " + (i+1) + " amount\"></td>" +
-    "<td class=\"mono\" id=\"lrec" + i + "\"></td><td class=\"mono\" id=\"lnow" + i + "\"></td><td id=\"lst" + i + "\"></td>";
+    "<td class=\"mono\" id=\"lnow" + i + "\"></td><td id=\"lst" + i + "\"></td>";
   $("#ledger tbody").appendChild(tr);
   $("#ld"+i).value = e.desc; $("#la"+i).value = e.amt;
-  [$("#ld"+i), $("#la"+i)].forEach(function(inp){ inp.disabled = !(tPredicted || force); inp.addEventListener("input", function(){ tTouched = true; refreshLedger(); }); });
+  [$("#ld"+i), $("#la"+i)].forEach(function(inp){ inp.disabled = !(tPredicted || force); inp.addEventListener("input", function(){ refreshLedger(); advance("s3","ledgerEdit"); }); });
 }
 function initLedger(){
-  led = []; var prev = ZERO; $("#ledger tbody").innerHTML = ""; tTouched = false;
+  led = []; var prev = ZERO; $("#ledger tbody").innerHTML = ""; $("#tAddMsg").hidden = true;
   ORIG.forEach(function(o,i){ var r = entryHash(i,o[0],o[1],prev); led.push({desc:o[0], amt:o[1], recorded:r}); prev = r; addRow(i); });
-  $("#tStateStep").hidden = true; $("#tStretchState").hidden = true; refreshLedger();
+  refreshLedger();
 }
 function refreshLedger(){
-  var prev = ZERO, broken = [];
+  var prev = ZERO, broken = 0;
   led.forEach(function(e,i){
     var now = entryHash(i, $("#ld"+i).value, $("#la"+i).value, prev); prev = now;
-    var ok = now === e.recorded; if (!ok) broken.push(i+1);
-    $("#lrec"+i).textContent = short(e.recorded); $("#lrec"+i).title = e.recorded;
+    var ok = now === e.recorded; if (!ok) broken++;
     $("#lnow"+i).textContent = short(now); $("#lnow"+i).title = now;
     $("#lst"+i).innerHTML = ok ? "<span class=\"chip ok\">Matches</span>" : "<span class=\"chip bad\">Broken</span>";
     $("#lr"+i).className = ok ? "" : "broken";
   });
-  if (!tTouched) return broken;
-  var st = $("#tState"); $("#tStateStep").hidden = false;
-  if (broken.length){
-    var pv = ($("input[name=tp]:checked") || {}).value, first = broken[0], last = led.length, verdict = "";
-    if (first === 2 && pv) verdict = pv === "after" ? " Your prediction was right." : " Your prediction was not right.";
-    st.className = "state bad";
-    st.textContent = "A change to one entry breaks every later entry. " + (first === last ? "Entry " + first + " no longer matches" : "Entries " + first + " to " + last + " no longer match") + " the copies held by everyone else." + verdict;
-    reveal("s3");
-  } else { st.className = "state"; st.textContent = "All entries match the copies held by everyone else."; }
   return broken;
 }
-$$("input[name=tp]").forEach(function(r){ r.addEventListener("change", function(){ tPredicted = true; led.forEach(function(e,i){ $("#ld"+i).disabled = false; $("#la"+i).disabled = false; }); predicted("s3", 2); }); });
+onChoose.tPredict = function(){ tPredicted = true; led.forEach(function(e,i){ $("#ld"+i).disabled = false; $("#la"+i).disabled = false; }); };
 $("#tReset").addEventListener("click", initLedger);
 $("#tAdd").addEventListener("click", function(){
-  var st = $("#tStretchState"), desc = $("#tNewDesc").value.trim(), amt = $("#tNewAmt").value.trim(); st.hidden = false;
-  if (!tPredicted){ st.className = "state warn"; st.textContent = "Make your prediction and try the main exercise first."; return; }
-  if (!desc){ st.className = "state warn"; st.textContent = "Type a description for the new entry first."; return; }
-  tTouched = false; var broken = refreshLedger();
-  if (broken.length){ st.className = "state bad"; st.textContent = "The chain is broken, so nobody would accept a new entry on top of it. Reset the ledger first, then record the new entry."; tTouched = true; return; }
+  var msg = $("#tAddMsg"), desc = $("#tNewDesc").value.trim(), amt = $("#tNewAmt").value.trim();
+  if (!desc){ msg.hidden = false; msg.textContent = "Type a description first."; return; }
+  if (refreshLedger() > 0){ msg.hidden = false; msg.textContent = "An entry is broken. Click \"Reset ledger\" first."; return; }
+  msg.hidden = true;
   var i = led.length, prev = led[i-1].recorded; led.push({desc:desc, amt:amt, recorded:entryHash(i,desc,amt,prev)});
-  addRow(i, true); refreshLedger();
-  st.className = "state"; st.textContent = "The books are corrected with a new entry. The wrong entry 4 stays on record for good.";
-  reveal("s3");
+  addRow(i, true); refreshLedger(); $("#tNewDesc").value = ""; $("#tNewAmt").value = "";
 });
-function liveHash(){ $("#hashOut").innerHTML = hashHtml(H($("#hashIn").value)); }
-$("#hashIn").addEventListener("input", liveHash); liveHash(); initLedger();
+var hash0val = $("#hashIn").value;
+function liveHash(){ var h = H($("#hashIn").value); $("#hashOut").innerHTML = hashHtml(h); $("#hashLen").textContent = h.length + " characters"; }
+$("#hashIn").addEventListener("input", function(){ liveHash(); if ($("#hashIn").value !== hash0val) advance("s3","hashIn"); });
+liveHash(); initLedger();
 
 /* ---------------- Block 2: keys ---------------- */
 var kk = {seed:null, pub:null, fp:null, sig:null};
 function kMsg(){ return "PAY|to=" + $("#kTo").value + "|amount=" + $("#kAmt").value + "|from=" + kk.fp; }
 function kSet(cls, txt){ var s = $("#kStatus"); s.className = "chip " + cls; s.textContent = txt; }
-$$("input[name=kp]").forEach(function(r){ r.addEventListener("change", function(){ $("#kGen").disabled = false; predicted("s4", 3); }); });
 $("#kGen").addEventListener("click", function(){
   kk.seed = randHex(16); kk.pub = lamportPub(kk.seed); kk.fp = pubFingerprint(kk.pub); kk.sig = null;
   $("#kPub").textContent = kk.fp.slice(0,40); $("#kPriv").textContent = showKey(kk.seed); $("#kSig").textContent = "None";
-  $("#kSign").disabled = false; $("#kVerify").disabled = true; $("#kForge").disabled = true; kSet("idle","Not signed");
+  $("#kSign").disabled = false; $("#kVerify").disabled = true; $("#kForge").disabled = true; kSet("idle","Not signed"); advance("s4","kGen");
 });
 $("#kSign").addEventListener("click", function(){
   kk.sig = lamportSign(kk.seed, kMsg());
-  $("#kSig").textContent = H(kk.sig.join("")).slice(0,32) + "… (256 parts, about 16 KB)";
-  $("#kVerify").disabled = false; $("#kForge").disabled = false; kSet("idle","Signed. Not checked yet.");
+  $("#kSig").textContent = H(kk.sig.join("")).slice(0,32) + "… (256 parts)";
+  $("#kVerify").disabled = false; $("#kForge").disabled = false; kSet("idle","Signed, not checked");
 });
-var kChecks = 0;
-function kVerifyNow(forged){
-  var ok = lamportVerify(kk.pub, kMsg(), kk.sig); kChecks++;
-  if (ok) kSet("ok","Valid. The key holder signed exactly this payment.");
-  else kSet("bad", forged ? "Invalid. Another key signed this. Only the holder of the private key can sign for this address." : "Invalid. The payment was changed after signing.");
-  if (!ok || kChecks > 1){
-    var pv = ($("input[name=kp]:checked") || {}).value;
-    $("#kState").textContent = "Anyone can check a signature. Only the key holder can create one. A change of one digit breaks it." + (pv ? (pv === "no" ? " Your prediction was right." : " Your prediction was not right.") : "");
-    $("#kStateStep").hidden = false; reveal("s4");
-  }
-}
-$("#kVerify").addEventListener("click", function(){ kVerifyNow(false); });
+$("#kVerify").addEventListener("click", function(){
+  if (lamportVerify(kk.pub, kMsg(), kk.sig)){ kSet("ok","Valid"); advance("s4","kVerifyOk"); }
+  else { kSet("bad","Not valid"); advance("s4","kVerifyChanged"); }
+});
 $("#kForge").addEventListener("click", function(){
   var other = randHex(16); kk.sig = lamportSign(other, kMsg());
-  $("#kSig").textContent = H(kk.sig.join("")).slice(0,32) + "… (signed by a different key)"; kVerifyNow(true);
+  $("#kSig").textContent = H(kk.sig.join("")).slice(0,32) + "… (signed by a different key)";
+  kSet(lamportVerify(kk.pub, kMsg(), kk.sig) ? "ok" : "bad", lamportVerify(kk.pub, kMsg(), kk.sig) ? "Valid" : "Not valid"); advance("s4","kForge");
 });
-["kTo","kAmt"].forEach(function(id){ $("#"+id).addEventListener("input", function(){ if (kk.sig) kSet("idle","Payment changed. Verify again."); }); });
+["kTo","kAmt"].forEach(function(id){ $("#"+id).addEventListener("input", function(){ if (kk.sig) kSet("idle","Payment changed, check again"); }); });
 
 /* ---------------- Block 3: mining ---------------- */
-var PREV = baseTip(), mine = null, sealed = null, mPredicted = false, roundNo = 0;
+var PREV = baseTip(), mine = null, sealed = null, mPredicted = !!doneScreens.s5, roundNo = 0;
 function mPrefix(name, entry, zeros){ return PREV + "|" + entry + "|reward to " + name.trim() + "|difficulty " + zeros + "|"; }
 function mSet(cls, txt){ var s = $("#mStatus"); s.className = "chip " + cls; s.textContent = txt; }
 function mButtons(){ var busy = !!mine; $$("[data-mine]").forEach(function(b){ b.disabled = busy || !mPredicted; }); $("#mStop").disabled = !busy; }
-$$("input[name=mp]").forEach(function(r){ r.addEventListener("change", function(){ mPredicted = true; mButtons(); predicted("s5", 4); }); });
+onChoose.mPredict = function(){ mPredicted = true; mButtons(); };
+$("#mName").addEventListener("change", function(){ if (this.value.trim()) advance("s5","mName"); });
 function startMine(zeros){
   var name = $("#mName").value.trim();
-  if (!name){ mSet("bad","Type your name first."); $("#mName").focus(); return; }
+  if (!name){ mSet("bad","Type your name first"); $("#mName").focus(); return; }
+  advance("s5","mName"); if (zeros === 6 || gstate.s5.i === 3) advance("s5","mStart6");
   var pre = enc.encode(mPrefix(name, $("#mEntry").value, zeros)), buf = new Uint8Array(pre.length + 24); buf.set(pre);
   var shift = 32 - 4*zeros;
   mine = {zeros:zeros, nonce:0, attempts:0, t0:performance.now(), timer:null}; sealed = null;
@@ -1112,15 +913,12 @@ function startMine(zeros){
     if (found){
       var hash = H(mPrefix(name, $("#mEntry").value, zeros) + n);
       sealed = {zeros:zeros, nonce:n, name:name, entry:$("#mEntry").value, hash:hash};
-      $("#mNonce").textContent = String(n); $("#mHash").innerHTML = hashHtml(hash); mSet("ok","Valid block. Paste your result in the chat.");
+      $("#mNonce").textContent = String(n); $("#mHash").innerHTML = hashHtml(hash); mSet("ok","Found. Valid block.");
       $("#mResult").value = name + " | " + n + " | " + zeros; $("#mShare").hidden = false;
       roundNo++; var tr = document.createElement("tr");
-      tr.innerHTML = "<td>" + roundNo + "</td><td>" + zeros + "</td><td>" + fmt(Math.pow(16,zeros)) + "</td><td>" + fmt(mine.attempts) + "</td><td>" + secs.toFixed(1) + "</td>";
+      tr.innerHTML = "<td>" + roundNo + "</td><td>" + zeros + "</td><td>" + fmt(mine.attempts) + "</td><td>" + secs.toFixed(1) + "</td>";
       $("#mRounds tbody").appendChild(tr);
-      var pv = ($("input[name=mp]:checked") || {}).value;
-      $("#mStateStep").hidden = false;
-      $("#mState").textContent = "Finding the number took " + fmt(mine.attempts) + " attempts. Checking it takes one. Each extra zero makes the search about 16 times longer." + (pv ? (pv === "16" ? " Your prediction was right." : " Your prediction was not right.") : "");
-      mine = null; mButtons(); reveal("s5"); return;
+      mine = null; mButtons(); advance("s5","mFound"); return;
     }
     mine.timer = setTimeout(loop, 0);
   }
@@ -1133,28 +931,26 @@ function checkSeal(){
   if (!sealed || mine) return;
   var h = H(mPrefix($("#mName").value, $("#mEntry").value, sealed.zeros) + sealed.nonce);
   $("#mHash").innerHTML = hashHtml(h);
-  if (h.slice(0, sealed.zeros) === new Array(sealed.zeros+1).join("0")) mSet("ok","Valid block. Paste your result in the chat.");
-  else mSet("bad","The block changed, so the same nonce no longer works. It must be mined again, and so must every block after it.");
+  if (h.slice(0, sealed.zeros) === new Array(sealed.zeros+1).join("0")) mSet("ok","Found. Valid block."); else mSet("bad","Not valid");
 }
 $("#mEntry").addEventListener("input", checkSeal); $("#mName").addEventListener("input", checkSeal);
 function vCheckNow(){
-  var name = $("#vName").value, nonce = $("#vNonce").value.replace(/[^0-9]/g,""), z = Math.max(1, Math.min(8, +$("#vZeros").value || 5));
+  var name = $("#vName").value, nonce = $("#vNonce").value.replace(/[^0-9]/g,""), z = Math.max(1, Math.min(8, +$("#vZeros").value || 6));
   var s = $("#vStatus");
-  if (!name.trim() || !nonce){ s.className = "chip bad"; s.textContent = "Type the miner's name and the nonce."; return; }
+  if (!name.trim() || !nonce){ s.className = "chip bad"; s.textContent = "Type the name and the nonce"; $("#vCount").textContent = ""; return; }
   var h = H(mPrefix(name, $("#mEntry").value, z) + nonce);
   $("#vHash").innerHTML = hashHtml(h);
   var ok = h.slice(0,z) === new Array(z+1).join("0");
-  s.className = "chip " + (ok ? "ok" : "bad");
-  s.textContent = ok ? "Valid. One hash was enough to check it." : "Not valid. The hash does not start with " + z + " zeros.";
+  s.className = "chip " + (ok ? "ok" : "bad"); s.textContent = ok ? "Valid" : "Not valid"; $("#vCount").textContent = "Attempts used for this check: 1";
 }
 $("#vCheck").addEventListener("click", vCheckNow);
 $("#vPaste").addEventListener("input", function(){
   var p = this.value.split("|"); if (p.length < 3) return;
-  $("#vName").value = p[0].trim(); $("#vNonce").value = p[1].replace(/[^0-9]/g,""); $("#vZeros").value = parseInt(p[2],10) || 5; vCheckNow();
+  $("#vName").value = p[0].trim(); $("#vNonce").value = p[1].replace(/[^0-9]/g,""); $("#vZeros").value = parseInt(p[2],10) || 6; vCheckNow();
 });
 
 /* ---------------- Block 4: forks ---------------- */
-var fk = {stage:0, winner:null, lenA:0, lenB:0}, fPredicted = false;
+var fk = {stage:0, winner:null, lenA:0, lenB:0};
 function blk(label, sub, cls){ return "<div class=\"blk" + (cls ? " " + cls : "") + "\">" + label + (sub ? "<small>" + sub + "</small>" : "") + "</div>"; }
 function laneHtml(letter, len){
   var parts = [];
@@ -1173,55 +969,47 @@ function fConfN(){
 function renderFork(){
   var html = "<div class=\"chain\">" + blk("1") + "<div class=\"link\"></div>" + blk("2") + "<div class=\"link\"></div>" + blk("3") + "</div>";
   if (fk.stage >= 1){
-    html += "<p class=\"lane-label\">Copy A" + (fk.stage === 1 ? " (held by half the network)" : fk.winner === "A" ? " (followed by everyone)" : " (dropped)") + "</p>";
+    html += "<p class=\"lane-label\">Copy A · " + (fk.stage === 1 ? "held by half the network" : fk.winner === "A" ? "followed by everyone" : "dropped") + "</p>";
     html += "<div class=\"lane" + (fk.winner === "B" ? " dropped" : "") + "\">" + laneHtml("A", fk.lenA) + "</div>";
-    html += "<p class=\"lane-label\">Copy B" + (fk.stage === 1 ? " (held by the other half)" : fk.winner === "B" ? " (followed by everyone)" : " (dropped)") + "</p>";
+    html += "<p class=\"lane-label\">Copy B · " + (fk.stage === 1 ? "held by the other half" : fk.winner === "B" ? "followed by everyone" : "dropped") + "</p>";
     html += "<div class=\"lane" + (fk.winner === "A" ? " dropped" : "") + "\">" + laneHtml("B", fk.lenB) + "</div>";
   }
   $("#forkView").innerHTML = html;
-  var c = fConfN(), st = $("#fStatus"), msg;
-  $("#fConf").textContent = c + (fk.stage === 1 ? " (on copy B only)" : "");
-  if (fk.stage === 0){ msg = "No fork yet. Blocks 1 to 3 are shared by everyone."; st.className = "state warn"; }
-  else if (fk.stage === 1){ msg = "Fork. Two valid copies exist. Your customer's payment is in block 4B. It shows 1 confirmation, but only on copy B."; st.className = "state warn"; }
-  else if (fk.winner === "A"){
-    if (fk.lenA < 3){ msg = "Copy A got the next block first, so everyone switches to copy A. Block 4B is dropped. Your customer's payment is back in the waiting pool with 0 confirmations."; st.className = "state bad"; }
-    else { msg = "The payment was written again in block 6A. It now has " + c + " confirmation" + (c === 1 ? "" : "s") + "."; st.className = "state"; }
-  } else { msg = "Copy B got the next block first, so everyone switches to copy B. Block 4A is dropped. Your customer's payment now has " + c + " confirmations."; st.className = "state"; }
-  if (c >= 6) msg += " Most exchanges would now treat it as settled. On Bitcoin that takes about 60 minutes.";
-  st.textContent = msg;
-  $("#fFork").disabled = !fPredicted || fk.stage !== 0; $("#fNextA").disabled = fk.stage !== 1; $("#fNextB").disabled = fk.stage !== 1; $("#fAdd").disabled = fk.stage !== 2;
-  $("#fStateStep").hidden = fk.stage < 2;
+  var c = fConfN(), where;
+  if (fk.stage === 0) where = "Waiting to be written";
+  else if (fk.stage === 1) where = "In block 4B, on copy B only";
+  else if (fk.winner === "B") where = "In block 4B";
+  else where = fk.lenA >= 3 ? "In block 6A" : "Back in the waiting pool";
+  $("#fWhere").textContent = where; $("#fConf").textContent = String(c);
+  $("#fFork").disabled = fk.stage !== 0; $("#fNextA").disabled = fk.stage !== 1; $("#fNextB").disabled = fk.stage !== 1; $("#fAdd").disabled = fk.stage !== 2;
+  if (c >= 6) advance("s6","fSix");
 }
-$$("input[name=fp]").forEach(function(r){ r.addEventListener("change", function(){ fPredicted = true; renderFork(); predicted("s6", 5); }); });
-$("#fFork").addEventListener("click", function(){ fk = {stage:1, winner:null, lenA:1, lenB:1}; renderFork(); });
-$("#fNextA").addEventListener("click", function(){ fk.stage = 2; fk.winner = "A"; fk.lenA = 2; renderFork(); reveal("s6"); });
-$("#fNextB").addEventListener("click", function(){ fk.stage = 2; fk.winner = "B"; fk.lenB = 2; renderFork(); reveal("s6"); });
+$("#fFork").addEventListener("click", function(){ fk = {stage:1, winner:null, lenA:1, lenB:1}; renderFork(); advance("s6","fFork"); });
+$("#fNextA").addEventListener("click", function(){ fk.stage = 2; fk.winner = "A"; fk.lenA = 2; renderFork(); advance("s6","fNext"); });
+$("#fNextB").addEventListener("click", function(){ fk.stage = 2; fk.winner = "B"; fk.lenB = 2; renderFork(); advance("s6","fNext"); });
 $("#fAdd").addEventListener("click", function(){ if (fk.winner === "A") fk.lenA++; else fk.lenB++; renderFork(); });
 $("#fReset").addEventListener("click", function(){ fk = {stage:0, winner:null, lenA:0, lenB:0}; renderFork(); });
-renderFork();
 
 /* ---------------- Block 5: judgment ---------------- */
-var votes = {};
 $("#cases").innerHTML = CASES.map(function(c,i){
-  return "<div class=\"sheet case\" id=\"case" + i + "\"><h3>Proposal " + (i+1) + " of " + CASES.length + "</h3><p class=\"proposal\">" + esc(c.proposal) + "</p>" +
+  return "<div class=\"sheet case\" id=\"case" + i + "\" data-from=\"" + (i+2) + "\" style=\"margin-bottom:16px\"><h2>Proposal " + (i+1) + " of " + CASES.length + "</h2><p class=\"proposal\">" + esc(c.proposal) + "</p>" +
     "<div class=\"row\"><button class=\"btn ghost\" type=\"button\" data-vote=\"" + i + "\" data-v=\"Blockchain\">Blockchain</button>" +
-    "<button class=\"btn ghost\" type=\"button\" data-vote=\"" + i + "\" data-v=\"Database\">Database</button>" +
-    "<button class=\"btn\" type=\"button\" id=\"rev" + i + "\" disabled>Reveal what happened</button></div>" +
-    "<p class=\"caption\" id=\"vote" + i + "\">Vote first.</p>" +
-    "<div class=\"outcome\" id=\"out" + i + "\" hidden><p>" + esc(c.outcome) + "</p><p><strong>It turns on:</strong> " + esc(c.turns) + "</p><p class=\"src\">" +
-    c.src.map(function(s){ return "<a href=\"" + esc(s[1]) + "\" target=\"_blank\" rel=\"noopener\">" + esc(s[0]) + "</a>"; }).join(" · ") + "</p></div></div>";
+    "<button class=\"btn ghost\" type=\"button\" data-vote=\"" + i + "\" data-v=\"Database\">Database</button></div>" +
+    "<p class=\"caption\" id=\"vote" + i + "\">Not voted yet.</p></div>";
 }).join("");
 $$("[data-vote]").forEach(function(b){ b.addEventListener("click", function(){
-  var i = b.getAttribute("data-vote"); votes[i] = b.getAttribute("data-v");
-  $("#vote"+i).textContent = "You voted: " + votes[i] + "."; $("#rev"+i).disabled = false;
+  var i = b.getAttribute("data-vote");
+  $("#vote"+i).textContent = "You voted: " + b.getAttribute("data-v") + ".";
   $$("[data-vote=\"" + i + "\"]").forEach(function(x){ x.className = "btn ghost"; }); b.className = "btn";
-  if (Object.keys(votes).length === CASES.length) predicted("s7", 6);
+  advance("s7","vote"+i);
 }); });
-CASES.forEach(function(c,i){ $("#rev"+i).addEventListener("click", function(){ $("#out"+i).hidden = false; this.hidden = true; }); });
 
 /* ---------------- start ---------------- */
-var startAt = parseInt((hash0.match(/s(\d)/) || [])[1], 10);
-if (notesMode) renderNotesWin(); else show(startAt >= 1 && startAt <= screens.length ? startAt - 1 : 0);
+Object.keys(GUIDES).forEach(function(id){ gstate[id] = {i: doneScreens[id] ? GUIDES[id].length : 0}; });
+Object.keys(GUIDES).forEach(renderGuide);
+renderFork(); mButtons();
+var startAt = parseInt(((location.hash || "").match(/s(\d)/) || [])[1], 10);
+show(startAt >= 1 && startAt <= screens.length ? startAt - 1 : 0);
 })();
 </script>
 
