@@ -144,6 +144,12 @@ ol.test{margin:0;padding-left:1.3em;display:flex;flex-direction:column;gap:6px;m
 .takeline{font-family:var(--serif);font-size:1.15rem;max-width:70ch}
 #summary .panel p{max-width:75ch}
 @media print{.guide{display:none}}
+.story li.law{background:var(--accent-soft);padding:6px 10px;border-radius:4px;list-style:none;margin-left:-1.1em}
+.modes{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.modes .btn[aria-pressed="true"]{background:var(--accent);color:var(--accent-ink)}
+.pv{border-left:4px solid var(--accent);background:var(--accent-soft);padding:10px 14px}
+.lockbox h2 small{font-family:var(--mono);font-size:.75rem;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin-left:8px}
+.logtbl td,.logtbl th{font-size:.85rem}
 </style>
 </head>
 <body>
@@ -168,6 +174,14 @@ ol.test{margin:0;padding-left:1.3em;display:flex;flex-direction:column;gap:6px;m
   <div class="work">
     <aside class="guide" data-guide="s1"></aside>
     <div class="activity">
+      <div class="sheet" data-from="1">
+        <h2>How are you doing this?</h2>
+        <div class="modes">
+          <button class="btn ghost small" type="button" id="modeClass" aria-pressed="true">In a class</button>
+          <button class="btn ghost small" type="button" id="modeSolo" aria-pressed="false">On my own</button>
+          <span class="caption" id="modeNote">In a class, the chat questions are part of each screen.</span>
+        </div>
+      </div>
       <div data-from="1">
         <div class="genesis" id="genesisText"></div>
         <p class="caption" style="margin-top:8px">Text written into Bitcoin's first block on 3 January 2009. <a href="https://en.wikipedia.org/wiki/History_of_bitcoin" target="_blank" rel="noopener">Source</a></p>
@@ -226,7 +240,7 @@ ol.test{margin:0;padding-left:1.3em;display:flex;flex-direction:column;gap:6px;m
   <div class="story"><ul>
     <li>First job: make sure nobody changes a record later.</li>
     <li>Today an audit trail does this, and an administrator controls it.</li>
-    <li>Here every entry carries a code, called a hash. Everyone on the network holds a copy of these codes.</li>
+    <li class="law" data-law="s3" hidden>Here every entry carries a code, called a hash. Everyone on the network holds a copy of these codes.</li>
   </ul></div>
   <div class="work">
     <aside class="guide" data-guide="s3"></aside>
@@ -243,6 +257,17 @@ ol.test{margin:0;padding-left:1.3em;display:flex;flex-direction:column;gap:6px;m
           <tbody></tbody>
         </table></div>
         <div class="row"><button class="btn ghost small" id="tReset" type="button">Reset ledger</button></div>
+        <p class="pv" id="pv_s3" hidden></p>
+      </div>
+      <div class="sheet lockbox" data-from="6" id="lock_s3">
+        <h2>The lock<small>a new case</small></h2>
+        <p>Five entries from another company, with the codes the network holds. One entry was changed after it was written. Which one?</p>
+        <div class="scroll"><table class="ledger" id="l3tbl"><thead><tr><th>#</th><th>Entry as shown</th><th>Amount (Rs)</th><th>Code the network holds</th><th>Code now</th></tr></thead><tbody></tbody></table></div>
+        <div class="row">
+          <label class="field" style="flex:0 1 160px"><span>Changed entry number</span><input type="number" id="l3ans" min="1" max="5"></label>
+          <button class="btn" id="l3chk" type="button">Check</button>
+        </div>
+        <p>Result: <span class="chip idle" id="l3st">Not tried</span> <span class="caption" id="l3fb"></span></p>
       </div>
       <div class="sheet" data-from="7">
         <h2>Add an entry</h2>
@@ -264,7 +289,7 @@ ol.test{margin:0;padding-left:1.3em;display:flex;flex-direction:column;gap:6px;m
   <div class="story"><ul>
     <li>Second job: check who is sending a payment and that it is theirs to send.</li>
     <li>Today the bank checks your signature and your balance.</li>
-    <li>Here each person has two keys. The private key signs. The public key lets anyone check the signature.</li>
+    <li class="law" data-law="s4" hidden>Here each person has two keys. The private key signs. The public key lets anyone check the signature.</li>
   </ul></div>
   <div class="work">
     <aside class="guide" data-guide="s4"></aside>
@@ -287,6 +312,15 @@ ol.test{margin:0;padding-left:1.3em;display:flex;flex-direction:column;gap:6px;m
         </div>
         <div class="field"><span>Signature</span><div class="mono" id="kSig">None</div></div>
         <p>Check result: <span class="chip idle" id="kStatus">Not signed</span></p>
+        <p class="pv" id="pv_s4" hidden></p>
+      </div>
+      <div class="sheet lockbox" data-from="6" id="lock_s4">
+        <h2>The lock<small>a new case</small></h2>
+        <p>The auditor asks for 75 coins to be paid to "audit", signed by you. Use the payment box above: set Pay to and Amount, sign it, then submit here. The checker holds only your public key.</p>
+        <div class="row">
+          <button class="btn" id="l4chk" type="button">Submit the signed payment</button>
+        </div>
+        <p>Result: <span class="chip idle" id="l4st">Not tried</span> <span class="caption" id="l4fb"></span></p>
       </div>
       <p class="caption" data-from="2">This exercise uses a hash-based signature so that it runs offline. Bitcoin uses a different scheme (ECDSA).</p>
     </div>
@@ -300,7 +334,7 @@ ol.test{margin:0;padding-left:1.3em;display:flex;flex-direction:column;gap:6px;m
   <div class="story"><ul>
     <li>Third job: decide who writes the next block of entries.</li>
     <li>Today the bank's staff do it, with a maker and a checker.</li>
-    <li>Here anyone may write. First they must find a number, called a nonce, that gives the block a code starting with enough zeros.</li>
+    <li class="law" data-law="s5" hidden>Here anyone may write. First they must find a number, called a nonce, that gives the block a code starting with enough zeros.</li>
   </ul></div>
   <div class="work">
     <aside class="guide" data-guide="s5"></aside>
@@ -328,6 +362,7 @@ ol.test{margin:0;padding-left:1.3em;display:flex;flex-direction:column;gap:6px;m
           <label class="field"><span>Your result</span><input type="text" id="mResult" readonly></label>
           <button class="btn ghost" id="mCopy" type="button">Copy result</button>
         </div>
+        <p class="pv" id="pv_s5" hidden></p>
         <div class="scroll" data-from="3"><table id="mRounds"><thead><tr><th>Round</th><th>Zeros</th><th>Your attempts</th><th>Seconds</th></tr></thead><tbody></tbody></table></div>
       </div>
       <div class="sheet" data-from="5">
@@ -353,7 +388,7 @@ ol.test{margin:0;padding-left:1.3em;display:flex;flex-direction:column;gap:6px;m
   <div class="story"><ul>
     <li>Fourth job: agree on one version when two exist.</li>
     <li>Today two parties reconcile their books.</li>
-    <li>Here thousands of computers each hold a copy, and two writers can finish at the same moment.</li>
+    <li class="law" data-law="s6" hidden>Here thousands of computers each hold a copy, and two writers can finish at the same moment.</li>
   </ul></div>
   <div class="work">
     <aside class="guide" data-guide="s6"></aside>
@@ -371,6 +406,17 @@ ol.test{margin:0;padding-left:1.3em;display:flex;flex-direction:column;gap:6px;m
           <div class="field"><span>Your customer's payment</span><div><strong id="fWhere">Waiting to be written</strong></div></div>
           <div class="field"><span>Confirmations</span><div><strong id="fConf">0</strong> <span class="caption">Most exchanges wait for 6.</span></div></div>
         </div>
+        <p class="pv" id="pv_s6" hidden></p>
+      </div>
+      <div class="sheet lockbox" data-from="5" id="lock_s6">
+        <h2>The lock<small>a new case</small></h2>
+        <p>Your payment sits in block 4B. Two writers found block 4 at the same moment. Work out both cases without the buttons.</p>
+        <div class="row">
+          <label class="field" style="flex:0 1 260px"><span>Case one: the next three blocks all build on B. Confirmations?</span><input type="number" id="l6a" min="0" max="20"></label>
+          <label class="field" style="flex:0 1 260px"><span>Case two: the next three blocks all build on A. Confirmations?</span><input type="number" id="l6b" min="0" max="20"></label>
+          <button class="btn" id="l6chk" type="button">Check</button>
+        </div>
+        <p>Result: <span class="chip idle" id="l6st">Not tried</span> <span class="caption" id="l6fb"></span></p>
       </div>
     </div>
   </div>
@@ -439,6 +485,13 @@ ol.test{margin:0;padding-left:1.3em;display:flex;flex-direction:column;gap:6px;m
   <div class="row"><button class="btn ghost small" id="printBtn" type="button">Print or save as PDF</button><button class="btn ghost small" id="cNew" type="button">Start again with a new wallet</button></div>
   <div id="summary" class="activity"></div>
   <div class="sheet scroll">
+    <h2>Your log</h2>
+    <p class="caption">What you did on each screen: time, predictions against what happened, and lock attempts. Kept in this browser only. No key is in it.</p>
+    <table class="logtbl" id="logTbl"><thead><tr><th>Screen</th><th>Time</th><th>Predicted</th><th>What happened</th><th>Lock tries</th></tr></thead><tbody></tbody></table>
+    <div class="row"><button class="btn ghost small" id="logCopy" type="button">Copy log as text</button></div>
+    <textarea id="logRaw" readonly style="width:100%;min-height:80px;font-family:var(--mono);font-size:.75rem" aria-label="Log as JSON"></textarea>
+  </div>
+  <div class="sheet scroll">
     <h2>Reference card</h2>
     <table id="refTable"><thead><tr><th>Topic</th><th>Position</th><th>As of</th></tr></thead><tbody></tbody></table>
   </div>
@@ -446,7 +499,7 @@ ol.test{margin:0;padding-left:1.3em;display:flex;flex-direction:column;gap:6px;m
 
 </main>
 
-<footer class="nav">
+<footer class="nav" data-version="v4">
   <button class="btn ghost" id="prevBtn" type="button">Back</button>
   <span class="where" id="whereText"></span>
   <button class="btn" id="nextBtn" type="button">Next</button>
@@ -626,7 +679,7 @@ var GUIDES = {
     {t:"Predict. A block's code must start with a set number of zeros. Going from 5 zeros to 6 makes the search about how many times longer?", key:"mPredict", choices:[["2","2 times"],["5","5 times"],["16","16 times"]]},
     {t:"Type your name in the box. Leave the entry text as it is. Then click outside the box.", key:"mName"},
     {t:"Click \"Round 1: 5 zeros\". Watch the attempts counter until it stops.", key:"mFound"},
-    {t:"Wait for the instructor. On the signal, click \"Round 2: 6 zeros\".", key:"mStart6"},
+    {t:function(){ return MODE === "solo" ? "When you are ready, click \"Round 2: 6 zeros\". Expect it to take about 16 times longer than round 1." : "Wait for the instructor. On the signal, click \"Round 2: 6 zeros\"."; }, key:"mStart6"},
     {t:"If you finish first: click \"Copy result\" and paste it in the chat. If a classmate finishes first: click \"Stop\", then paste their result into the check box below.", manual:true},
     {t:"How many attempts did finding take? How many did checking take?", manual:true, chat:true},
     {t:"After a block is found, change the entry text. Watch the block status.", manual:true, optional:true}
@@ -691,9 +744,9 @@ $("#summary").innerHTML = SUMMARY.map(function(s){
 /* ---------------- screens and locks ---------------- */
 var screens = $$(".screen"), cur = 0, LAST = screens.length - 1;
 var openAll = /all/i.test(location.hash || "");
-var unlocked = openAll ? LAST : Math.min(LAST, +sget("lwb3_unlocked") || 0);
-if (openAll) sset("lwb3_unlocked", LAST);
-var doneScreens = sget("lwb3_done") || {};
+var unlocked = openAll ? LAST : Math.min(LAST, +sget("lwb4_unlocked") || 0);
+if (openAll) sset("lwb4_unlocked", LAST);
+var doneScreens = sget("lwb4_done") || {};
 var dots = $("#dots");
 screens.forEach(function(s,i){
   var b = document.createElement("button"); b.type = "button"; b.className = "dot"; b.textContent = i+1;
@@ -705,15 +758,17 @@ function navState(){
   $("#prevBtn").disabled = cur === 0;
   var locked = cur + 1 > unlocked;
   $("#nextBtn").disabled = cur === LAST || locked;
-  $("#whereText").textContent = (cur+1) + ". " + screens[cur].getAttribute("data-name") + (locked && cur < LAST ? " · Finish the steps in the guide to unlock the next screen." : "");
+  $("#whereText").textContent = (cur+1) + ". " + screens[cur].getAttribute("data-name") + (locked && cur < LAST ? (LOCK_SCREENS[screens[cur].id] && gstate[screens[cur].id] && gstate[screens[cur].id].i >= reqCount(screens[cur].id) ? " · Pass the lock to unlock the next screen." : " · Finish the steps in the guide to unlock the next screen.") : "");
 }
-function unlock(i){ if (i > unlocked){ unlocked = Math.min(LAST, i); sset("lwb3_unlocked", unlocked); } navState(); }
+function unlock(i){ if (i > unlocked){ unlocked = Math.min(LAST, i); sset("lwb4_unlocked", unlocked); } navState(); }
 function show(i){
   i = Math.max(0, Math.min(LAST, i)); if (i > unlocked) i = unlocked;
   cur = i; screens.forEach(function(s,k){ s.hidden = k !== cur; });
+  logv("open", {s:screens[cur].id});
   navState(); try { history.replaceState(null, "", "#s" + (cur+1)); } catch(e){}
   window.scrollTo(0,0);
   if (screens[cur].id === "s8"){ $("#cAddr").textContent = wallet.addr || ""; $("#cBal").textContent = wallet.moved ? "0" : "100"; }
+  if (screens[cur].id === "s9"){ renderLog(); }
 }
 $("#prevBtn").addEventListener("click", function(){ show(cur-1); });
 $("#nextBtn").addEventListener("click", function(){ show(cur+1); });
@@ -726,7 +781,21 @@ document.addEventListener("keydown", function(ev){
 
 /* ---------------- guide engine ---------------- */
 var gstate = {}, answers = {}, onChoose = {};
-function reqCount(id){ var n = 0, st = GUIDES[id]; while (n < st.length && !st[n].optional) n++; return n; }
+/* v4: mode, log, locks */
+var MODE = sget("lwb4_mode") || "class";
+var LOGV = sget("lwb4_log") || [];
+function logv(t, o){ var e = {t:t, at:Date.now()}; if (o) for (var k in o) e[k] = o[k]; LOGV.push(e); sset("lwb4_log", LOGV); }
+var LOCKS = sget("lwb4_locks") || {};
+var LOCK_SCREENS = {s3:1, s4:1, s6:1};
+function lockDone(id){ return !LOCK_SCREENS[id] || !!LOCKS[id]; }
+var LAW_AT = {s3:1, s4:2, s5:3, s6:2};
+function stepText(s){ return typeof s.t === "function" ? s.t() : s.t; }
+function choiceLabel(id, key){ var v = answers[key]; if (v === undefined) return null; var steps = GUIDES[id]; for (var k=0;k<steps.length;k++){ var s = steps[k]; if (s.key === key && s.choices){ for (var j=0;j<s.choices.length;j++) if (s.choices[j][0] === v) return s.choices[j][1]; } } return String(v); }
+function showPV(id, predicted, seen){ var el = $("#pv_" + id); if (!el) return; el.hidden = false; el.innerHTML = "<strong>You predicted:</strong> " + esc(predicted || "nothing yet") + " <strong>What happened:</strong> " + esc(seen); logv("outcome", {s:id, predicted:predicted || "", seen:seen}); }
+function setMode(m){ MODE = m; sset("lwb4_mode", m); $("#modeClass").setAttribute("aria-pressed", m === "class" ? "true" : "false"); $("#modeSolo").setAttribute("aria-pressed", m === "solo" ? "true" : "false");
+  $("#modeNote").textContent = m === "solo" ? "On your own, the chat questions are for you to think through. They do not block the next screen." : "In a class, the chat questions are part of each screen.";
+  Object.keys(gstate).forEach(function(id){ renderGuide(id); }); logv("mode", {mode:m}); }
+function reqCount(id){ var n = 0, st = GUIDES[id]; while (n < st.length && !st[n].optional && !(MODE === "solo" && st[n].chat)) n++; return n; }
 function screenIndex(id){ for (var k=0;k<screens.length;k++) if (screens[k].id === id) return k; return -1; }
 function applyFrom(id){
   var st = gstate[id], all = st.i >= GUIDES[id].length;
@@ -738,24 +807,28 @@ function renderGuide(id){
   var html = "<h3>Guide</h3>";
   if (st.i < steps.length){
     var s = steps[st.i];
-    html += "<div class=\"now" + (s.chat ? " chat" : "") + "\"><span class=\"count\">Step " + (st.i+1) + " of " + steps.length + (s.optional ? " · optional" : "") + (s.chat ? " · answer in the chat" : "") + "</span><p>" + esc(s.t) + "</p>";
+    html += "<div class=\"now" + (s.chat ? " chat" : "") + "\"><span class=\"count\">Step " + (st.i+1) + " of " + steps.length + (s.optional ? " · optional" : "") + (s.chat ? (MODE === "solo" ? " · think it through" : " · answer in the chat") : "") + "</span><p>" + esc(stepText(s)) + "</p>";
     if (s.choices) html += "<div class=\"choices\">" + s.choices.map(function(c,k){ return "<label><input type=\"radio\" name=\"g_" + id + "_" + st.i + "\" id=\"g_" + id + "_" + st.i + "_" + k + "\" value=\"" + esc(c[0]) + "\">" + esc(c[1]) + "</label>"; }).join("") + "</div>";
-    if (s.manual) html += "<button class=\"btn\" type=\"button\" id=\"gnext_" + id + "\">" + esc(s.manualLabel || (s.optional ? "Done, or skip" : "Done, next step")) + "</button>";
+    if (s.manual) html += "<button class=\"btn\" type=\"button\" id=\"gnext_" + id + "\">" + esc(s.manualLabel || (s.optional || (MODE === "solo" && s.chat) ? "Done, or skip" : "Done, next step")) + "</button>";
     else if (!s.choices) html += "<p class=\"caption\">The next step appears when you have done this.</p>";
     html += "</div>";
-  } else html += "<p class=\"now alldone\">All steps done. Click Next.</p>";
-  if (st.i > 0) html += "<p class=\"count\">Done so far</p><ol class=\"donelist\">" + steps.slice(0, st.i).map(function(s,k){ return "<li><span class=\"n\">" + (k+1) + "</span><span>" + esc(s.t) + "</span></li>"; }).join("") + "</ol>";
+  } else html += "<p class=\"now alldone\">" + (lockDone(id) ? "All steps done. Click Next." : "All steps done. Pass the lock below to unlock the next screen.") + "</p>";
+  if (st.i > 0) html += "<p class=\"count\">Done so far</p><ol class=\"donelist\">" + steps.slice(0, st.i).map(function(s,k){ return "<li><span class=\"n\">" + (k+1) + "</span><span>" + esc(stepText(s)) + "</span></li>"; }).join("") + "</ol>";
   el.innerHTML = html;
   var btn = $("#gnext_" + id); if (btn) btn.addEventListener("click", function(){ st.i++; renderGuide(id); });
   $$("input[type=radio]", el).forEach(function(r){ r.addEventListener("change", function(){
-    var s2 = steps[st.i]; answers[s2.key] = r.value; if (onChoose[s2.key]) onChoose[s2.key](r.value); st.i++; renderGuide(id);
+    var s2 = steps[st.i]; answers[s2.key] = r.value; logv("choice", {s:id, key:s2.key, value:r.value}); if (onChoose[s2.key]) onChoose[s2.key](r.value); st.i++; renderGuide(id);
   }); });
   applyFrom(id);
-  if (st.i >= reqCount(id)){ doneScreens[id] = true; sset("lwb3_done", doneScreens); unlock(screenIndex(id) + 1); }
+  var law = $("[data-law=\"" + id + "\"]"); if (law) law.hidden = !(st.i >= (LAW_AT[id] || 1));
+  if (st.i >= reqCount(id) && lockDone(id)){ doneScreens[id] = true; sset("lwb4_done", doneScreens); unlock(screenIndex(id) + 1); }
 }
+function passLock(id, ok, fb){ var n = (LOCKS[id + "_tries"] || 0) + 1; LOCKS[id + "_tries"] = n; if (ok) LOCKS[id] = true; sset("lwb4_locks", LOCKS); logv("lock", {s:id, ok:ok, tries:n});
+  var st = $("#l" + id.slice(1) + "st"), f = $("#l" + id.slice(1) + "fb"); st.className = "chip " + (ok ? "ok" : "bad"); st.textContent = ok ? "Yours" : "Not yet"; f.textContent = fb || "";
+  if (ok) renderGuide(id); }
 function advance(id, key){
   var steps = GUIDES[id], st = gstate[id];
-  for (var k=0;k<steps.length;k++){ if (steps[k].key === key){ if (st.i <= k){ st.i = k + 1; renderGuide(id); } return; } }
+  for (var k=0;k<steps.length;k++){ if (steps[k].key === key){ if (st.i <= k){ st.i = k + 1; logv("step", {s:id, key:key}); renderGuide(id); } return; } }
 }
 
 /* ---------------- copy helper ---------------- */
@@ -777,11 +850,11 @@ function renderWallet(){
   $("#wKeyBox").hidden = !has; $("#wHidden").hidden = has;
   $("#wKey").value = has ? showKey(wallet.seed) : ""; $("#wSaved").checked = false;
 }
-(function(){ var j = sget("lwb3_wallet"); if (j && j.addr){ wallet = {addr:j.addr, seed:null, moved:!!j.moved}; renderWallet(); } else newWallet(); })();
+(function(){ var j = sget("lwb4_wallet"); if (j && j.addr){ wallet = {addr:j.addr, seed:null, moved:!!j.moved}; renderWallet(); } else newWallet(); })();
 $("#wCopy").addEventListener("click", function(){ copyFrom($("#wKey"), this, "Copy key"); advance("s1","copy"); });
 $("#wSaved").addEventListener("change", function(){
   if (!this.checked) return;
-  wallet.seed = null; sset("lwb3_wallet", {addr:wallet.addr, moved:false}); renderWallet(); advance("s1","saved");
+  wallet.seed = null; sset("lwb4_wallet", {addr:wallet.addr, moved:false}); renderWallet(); advance("s1","saved");
 });
 function cSet(cls, txt){ var s = $("#cState"); s.className = "chip " + cls; s.textContent = txt; }
 $("#cMove").addEventListener("click", function(){
@@ -789,23 +862,41 @@ $("#cMove").addEventListener("click", function(){
   if (wallet.moved){ cSet("ok","Already moved. Balance 0."); return; }
   if (key.length !== 32){ cSet("bad","A private key has 32 characters."); return; }
   var pub = lamportPub(key);
-  if (pubFingerprint(pub).slice(0,40) !== wallet.addr){ cSet("bad","Key does not match. The coins did not move."); advance("s8","cMove"); return; }
+  if (pubFingerprint(pub).slice(0,40) !== wallet.addr){ cSet("bad","Key does not match. The coins did not move."); advance("s8","cMove"); logv("move", {ok:false}); return; }
   var msg = "MOVE|100|from=" + wallet.addr + "|to=class-treasury", sig = lamportSign(key, msg);
   if (lamportVerify(pub, msg, sig)){
-    wallet.moved = true; sset("lwb3_wallet", {addr:wallet.addr, moved:true}); $("#wBal").textContent = "0"; $("#cBal").textContent = "0";
-    cSet("ok","Signature valid. Moved. Balance 0."); advance("s8","cMove");
+    wallet.moved = true; sset("lwb4_wallet", {addr:wallet.addr, moved:true}); $("#wBal").textContent = "0"; $("#cBal").textContent = "0";
+    cSet("ok","Signature valid. Moved. Balance 0."); advance("s8","cMove"); logv("move", {ok:true});
   }
 });
 $("#cNew").addEventListener("click", function(){
-  try { ["lwb3_wallet","lwb3_unlocked","lwb3_done","lwb3_choice"].forEach(function(k){ window.localStorage.removeItem(k); }); } catch(e){}
+  try { ["lwb4_wallet","lwb4_unlocked","lwb4_done","lwb4_choice","lwb4_log","lwb4_locks"].forEach(function(k){ window.localStorage.removeItem(k); }); } catch(e){}
   try { location.hash = ""; location.reload(); } catch(e){}
 });
 $("#printBtn").addEventListener("click", function(){ try { window.print(); } catch(e){} });
+function renderLog(){
+  var byS = {}, order = [];
+  screens.forEach(function(s){ byS[s.id] = {time:0, pred:"", seen:"", tries:0}; order.push(s.id); });
+  for (var i=0;i<LOGV.length;i++){ var e = LOGV[i];
+    if (e.t === "open"){ var next = null; for (var j=i+1;j<LOGV.length;j++){ if (LOGV[j].t === "open"){ next = LOGV[j].at; break; } } if (next && byS[e.s]) byS[e.s].time += Math.min(next - e.at, 3600000); }
+    if (e.t === "outcome" && byS[e.s]){ byS[e.s].pred = e.predicted; byS[e.s].seen = e.seen; }
+    if (e.t === "lock" && byS[e.s]){ byS[e.s].tries = Math.max(byS[e.s].tries, e.tries); if (e.ok) byS[e.s].passed = true; }
+  }
+  var tb = $("#logTbl tbody"); tb.innerHTML = "";
+  order.forEach(function(id, k){ var r = byS[id]; if (!r.time && !r.pred && !r.tries) return; var tr = document.createElement("tr");
+    tr.innerHTML = "<td>" + (k+1) + ". " + esc(screens[k].getAttribute("data-name")) + "</td><td>" + (r.time ? (r.time < 60000 ? Math.round(r.time/1000) + " s" : Math.round(r.time/60000) + " min") : "") + "</td><td>" + esc(r.pred) + "</td><td>" + esc(r.seen) + "</td><td>" + (r.tries ? r.tries + (r.passed ? ", passed" : ", not passed") : "") + "</td>"; tb.appendChild(tr); });
+  $("#logRaw").value = JSON.stringify(LOGV);
+}
+$("#logCopy").addEventListener("click", function(){ renderLog(); copyFrom($("#logRaw"), this, "Copy log as text"); });
+$("#modeClass").addEventListener("click", function(){ setMode("class"); });
+$("#modeSolo").addEventListener("click", function(){ setMode("solo"); });
+(function(){ $("#modeClass").setAttribute("aria-pressed", MODE === "class" ? "true" : "false"); $("#modeSolo").setAttribute("aria-pressed", MODE === "solo" ? "true" : "false");
+  $("#modeNote").textContent = MODE === "solo" ? "On your own, the chat questions are for you to think through. They do not block the next screen." : "In a class, the chat questions are part of each screen."; })();
 
 /* ---------------- Screen 2: choose ---------------- */
 function recall(v){ var el = $("#pRecall"); el.hidden = false; el.textContent = "On Screen 2 you said " + v + " costs your company the most. Keep it in mind for question 1."; }
-onChoose.choose = function(v){ sset("lwb3_choice", v); recall(v); };
-(function(){ var c = sget("lwb3_choice"); if (c) recall(c); })();
+onChoose.choose = function(v){ sset("lwb4_choice", v); recall(v); };
+(function(){ var c = sget("lwb4_choice"); if (c) recall(c); })();
 
 /* ---------------- Block 1: tamper ---------------- */
 var ZERO = new Array(65).join("0");
@@ -821,7 +912,7 @@ function addRow(i, force){
     "<td class=\"mono\" id=\"lnow" + i + "\"></td><td id=\"lst" + i + "\"></td>";
   $("#ledger tbody").appendChild(tr);
   $("#ld"+i).value = e.desc; $("#la"+i).value = e.amt;
-  [$("#ld"+i), $("#la"+i)].forEach(function(inp){ inp.disabled = !(tPredicted || force); inp.addEventListener("input", function(){ refreshLedger(); advance("s3","ledgerEdit"); }); });
+  [$("#ld"+i), $("#la"+i)].forEach(function(inp){ inp.disabled = !(tPredicted || force); inp.addEventListener("input", function(){ var b = refreshLedger(); advance("s3","ledgerEdit"); pv3(b); }); });
 }
 function initLedger(){
   led = []; var prev = ZERO; $("#ledger tbody").innerHTML = ""; $("#tAddMsg").hidden = true;
@@ -840,6 +931,16 @@ function refreshLedger(){
   return broken;
 }
 onChoose.tPredict = function(){ tPredicted = true; led.forEach(function(e,i){ $("#ld"+i).disabled = false; $("#la"+i).disabled = false; }); };
+function pv3(broken){ if (!broken) return; var bad = []; led.forEach(function(e,i){ if ($("#lr"+i).className === "broken") bad.push(i+1); });
+  var seen = bad.length === 1 ? "only entry " + bad[0] + " shows Broken." : "entries " + bad[0] + " to " + bad[bad.length-1] + " show Broken; " + (bad[0] === 2 ? "entry 1 still matches." : bad[0] > 2 ? "entries 1 to " + (bad[0]-1) + " still match." : "every entry broke.");
+  showPV("s3", choiceLabel("s3","tPredict"), seen); }
+/* lock, screen 3: five entries, one changed after the fact */
+var L3 = [["Pay Vendor B","2,40,000"],["Pay Vendor C","75,000"],["Refund from Vendor D","12,500"],["Pay Vendor E","3,00,000"],["Salary run","18,20,000"]], L3K = 1 + Math.floor(Math.random()*4), L3ALT = "3,60,000";
+(function(){ var prev = ZERO, rec = []; L3.forEach(function(o,i){ var r = entryHash(i,o[0],o[1],prev); rec.push(r); prev = r; });
+  var tb = $("#l3tbl tbody"); L3.forEach(function(o,i){ var amt = i === L3K ? L3ALT : o[1], now = entryHash(i,o[0],amt, i ? rec[i-1] : ZERO), tr = document.createElement("tr");
+    tr.innerHTML = "<td class=\"n\">" + (i+1) + "</td><td>" + esc(o[0]) + "</td><td>" + esc(amt) + "</td><td class=\"mono\" title=\"" + rec[i] + "\">" + short(rec[i]) + "</td><td class=\"mono\" title=\"" + now + "\">" + short(now) + "</td>"; tb.appendChild(tr); }); })();
+$("#l3chk").addEventListener("click", function(){ var v = +$("#l3ans").value; if (!v){ passLock("s3", false, "Type an entry number."); return; }
+  passLock("s3", v === L3K + 1, v === L3K + 1 ? "Entry " + v + " as shown no longer gives the code the network holds for it. It was changed after the code was made." : "Compare each row: the code the network holds against the code now. Only one row differs."); });
 $("#tReset").addEventListener("click", initLedger);
 $("#tAdd").addEventListener("click", function(){
   var msg = $("#tAddMsg"), desc = $("#tNewDesc").value.trim(), amt = $("#tNewAmt").value.trim();
@@ -870,8 +971,15 @@ $("#kSign").addEventListener("click", function(){
 });
 $("#kVerify").addEventListener("click", function(){
   if (lamportVerify(kk.pub, kMsg(), kk.sig)){ kSet("ok","Valid"); advance("s4","kVerifyOk"); }
-  else { kSet("bad","Not valid"); advance("s4","kVerifyChanged"); }
+  else { kSet("bad","Not valid"); advance("s4","kVerifyChanged"); showPV("s4", choiceLabel("s4","kPredict"), "the signature failed after the amount changed. It covers the exact payment."); }
 });
+$("#l4chk").addEventListener("click", function(){
+  if (!kk.pub){ passLock("s4", false, "Create a key pair first."); return; }
+  if (!kk.sig){ passLock("s4", false, "Nothing is signed yet. Set the payment, then click Sign payment."); return; }
+  var want = "PAY|to=audit|amount=75|from=" + kk.fp;
+  if (kMsg() !== want){ passLock("s4", false, "The payment box does not read 75 coins to audit. Set it, sign again, then submit."); return; }
+  var ok = lamportVerify(kk.pub, want, kk.sig);
+  passLock("s4", ok, ok ? "Valid against your public key. The checker never saw your private key." : "The signature does not match this payment. Sign it again after setting the amount and the payee."); });
 $("#kForge").addEventListener("click", function(){
   var other = randHex(16); kk.sig = lamportSign(other, kMsg());
   $("#kSig").textContent = H(kk.sig.join("")).slice(0,32) + "… (signed by a different key)";
@@ -882,6 +990,7 @@ $("#kForge").addEventListener("click", function(){
 /* ---------------- Block 3: mining ---------------- */
 var PREV = baseTip(), mine = null, sealed = null, mPredicted = !!doneScreens.s5, roundNo = 0;
 function mPrefix(name, entry, zeros){ return PREV + "|" + entry + "|reward to " + name.trim() + "|difficulty " + zeros + "|"; }
+var ENTRY0 = $("#mEntry").value, vEntry = ENTRY0;
 function mSet(cls, txt){ var s = $("#mStatus"); s.className = "chip " + cls; s.textContent = txt; }
 function mButtons(){ var busy = !!mine; $$("[data-mine]").forEach(function(b){ b.disabled = busy || !mPredicted; }); $("#mStop").disabled = !busy; }
 onChoose.mPredict = function(){ mPredicted = true; mButtons(); };
@@ -914,18 +1023,19 @@ function startMine(zeros){
       var hash = H(mPrefix(name, $("#mEntry").value, zeros) + n);
       sealed = {zeros:zeros, nonce:n, name:name, entry:$("#mEntry").value, hash:hash};
       $("#mNonce").textContent = String(n); $("#mHash").innerHTML = hashHtml(hash); mSet("ok","Found. Valid block.");
-      $("#mResult").value = name + " | " + n + " | " + zeros; $("#mShare").hidden = false;
+      $("#mResult").value = name + " | " + n + " | " + zeros + " | " + $("#mEntry").value; $("#mShare").hidden = false;
+      ROUNDS.push({zeros:zeros, attempts:mine.attempts, secs:secs}); logv("mine", {zeros:zeros, attempts:mine.attempts, secs:Math.round(secs*10)/10, found:true});
       roundNo++; var tr = document.createElement("tr");
       tr.innerHTML = "<td>" + roundNo + "</td><td>" + zeros + "</td><td>" + fmt(mine.attempts) + "</td><td>" + secs.toFixed(1) + "</td>";
       $("#mRounds tbody").appendChild(tr);
-      mine = null; mButtons(); advance("s5","mFound"); return;
+      mine = null; mButtons(); advance("s5","mFound"); pv5(); return;
     }
     mine.timer = setTimeout(loop, 0);
   }
   loop();
 }
 $$("[data-mine]").forEach(function(b){ b.addEventListener("click", function(){ startMine(+b.getAttribute("data-mine")); }); });
-$("#mStop").addEventListener("click", function(){ if (mine){ clearTimeout(mine.timer); mine = null; mSet("idle","Stopped"); $("#mNonce").textContent = "None"; $("#mHash").textContent = "Not mined yet"; mButtons(); } });
+$("#mStop").addEventListener("click", function(){ if (mine){ ROUNDS.push({zeros:mine.zeros, attempts:mine.attempts, stopped:true}); logv("mine", {zeros:mine.zeros, attempts:mine.attempts, found:false}); clearTimeout(mine.timer); mine = null; mSet("idle","Stopped"); $("#mNonce").textContent = "None"; $("#mHash").textContent = "Not mined yet"; mButtons(); } });
 $("#mCopy").addEventListener("click", function(){ copyFrom($("#mResult"), this, "Copy result"); });
 function checkSeal(){
   if (!sealed || mine) return;
@@ -938,7 +1048,7 @@ function vCheckNow(){
   var name = $("#vName").value, nonce = $("#vNonce").value.replace(/[^0-9]/g,""), z = Math.max(1, Math.min(8, +$("#vZeros").value || 6));
   var s = $("#vStatus");
   if (!name.trim() || !nonce){ s.className = "chip bad"; s.textContent = "Type the name and the nonce"; $("#vCount").textContent = ""; return; }
-  var h = H(mPrefix(name, $("#mEntry").value, z) + nonce);
+  var h = H(mPrefix(name, vEntry, z) + nonce);
   $("#vHash").innerHTML = hashHtml(h);
   var ok = h.slice(0,z) === new Array(z+1).join("0");
   s.className = "chip " + (ok ? "ok" : "bad"); s.textContent = ok ? "Valid" : "Not valid"; $("#vCount").textContent = "Attempts used for this check: 1";
@@ -946,8 +1056,12 @@ function vCheckNow(){
 $("#vCheck").addEventListener("click", vCheckNow);
 $("#vPaste").addEventListener("input", function(){
   var p = this.value.split("|"); if (p.length < 3) return;
-  $("#vName").value = p[0].trim(); $("#vNonce").value = p[1].replace(/[^0-9]/g,""); $("#vZeros").value = parseInt(p[2],10) || 6; vCheckNow();
+  $("#vName").value = p[0].trim(); $("#vNonce").value = p[1].replace(/[^0-9]/g,""); $("#vZeros").value = parseInt(p[2],10) || 6; vEntry = p.length > 3 ? p.slice(3).join("|").trim() : ENTRY0; vCheckNow();
 });
+var ROUNDS = [];
+function pv5(){ var done = ROUNDS.filter(function(r){ return !r.stopped; }); if (done.length < 2) return; var a = done[done.length-2], b = done[done.length-1]; if (a.zeros === b.zeros) return;
+  var lo = a.zeros < b.zeros ? a : b, hi = a.zeros < b.zeros ? b : a, ratio = hi.attempts / Math.max(1, lo.attempts);
+  showPV("s5", choiceLabel("s5","mPredict"), lo.zeros + " zeros took " + fmt(lo.attempts) + " attempts; " + hi.zeros + " zeros took " + fmt(hi.attempts) + ". That is about " + (ratio >= 10 ? Math.round(ratio) : ratio.toFixed(1)) + " times, for " + (hi.zeros - lo.zeros) + " more zero" + (hi.zeros - lo.zeros > 1 ? "s" : "") + ". One run is luck; the average is 16 times per zero."); }
 
 /* ---------------- Block 4: forks ---------------- */
 var fk = {stage:0, winner:null, lenA:0, lenB:0};
@@ -985,8 +1099,11 @@ function renderFork(){
   if (c >= 6) advance("s6","fSix");
 }
 $("#fFork").addEventListener("click", function(){ fk = {stage:1, winner:null, lenA:1, lenB:1}; renderFork(); advance("s6","fFork"); });
-$("#fNextA").addEventListener("click", function(){ fk.stage = 2; fk.winner = "A"; fk.lenA = 2; renderFork(); advance("s6","fNext"); });
-$("#fNextB").addEventListener("click", function(){ fk.stage = 2; fk.winner = "B"; fk.lenB = 2; renderFork(); advance("s6","fNext"); });
+$("#fNextA").addEventListener("click", function(){ fk.stage = 2; fk.winner = "A"; fk.lenA = 2; renderFork(); advance("s6","fNext"); showPV("s6", choiceLabel("s6","fPredict"), "the next block landed on A, so everyone followed A. Your payment in 4B went back to the waiting pool."); });
+$("#fNextB").addEventListener("click", function(){ fk.stage = 2; fk.winner = "B"; fk.lenB = 2; renderFork(); advance("s6","fNext"); showPV("s6", choiceLabel("s6","fPredict"), "the next block landed on B, so everyone followed B. Your payment stayed in 4B and gained a confirmation."); });
+$("#l6chk").addEventListener("click", function(){ var a = $("#l6a").value, b = $("#l6b").value; if (a === "" || b === ""){ passLock("s6", false, "Fill in both cases."); return; }
+  var ok = +a === 4 && +b === 0;
+  passLock("s6", ok, ok ? "Case one: 4B counts as one, and three blocks on top make four. Case two: A won, so 4B was dropped and the payment went back to the pool with none." : (+a !== 4 ? "Case one: count block 4B itself, then each block built on it." : "Case two: if A wins, is block 4B still on the chain everyone follows?")); });
 $("#fAdd").addEventListener("click", function(){ if (fk.winner === "A") fk.lenA++; else fk.lenB++; renderFork(); });
 $("#fReset").addEventListener("click", function(){ fk = {stage:0, winner:null, lenA:0, lenB:0}; renderFork(); });
 
